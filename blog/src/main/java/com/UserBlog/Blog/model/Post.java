@@ -6,9 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -20,11 +17,9 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long authorId;
 
-    @NotBlank(message = "Title cannot be empty")
     private String title;
-    
-    @Size(max = 5000, message = "Content can be up to 5000 characters long")
     private String content;
 
     @CreatedDate
@@ -64,5 +59,13 @@ public class Post {
     
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+    
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 }

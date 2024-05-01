@@ -1,14 +1,17 @@
 package com.UserBlog.Blog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.UserBlog.Blog.model.Post;
 import com.UserBlog.Blog.service.PostService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.BDDMockito.*;
@@ -19,10 +22,18 @@ import java.util.Optional;
 @WebMvcTest(PostController.class)
 public class PostControllerTests {
 
+    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private PostService postService;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeEach
+    public void setup() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new PostController(postService)).build();
+    }
 
     @Test
     public void testGetAllPosts() throws Exception {
@@ -60,11 +71,11 @@ public class PostControllerTests {
         newPost.setTitle("New Post");
         newPost.setContent("Content of the new post");
 
-        given(postService.savePost(any())).willReturn(newPost);
+        given(postService.savePost(any(Post.class))).willReturn(newPost);
 
         mockMvc.perform(post("/api/posts")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(newPost)))
+                .content(objectMapper.writeValueAsString(newPost)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("New Post"));
     }

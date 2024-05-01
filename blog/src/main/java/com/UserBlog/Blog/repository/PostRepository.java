@@ -21,8 +21,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // Retrieve all posts sorted by creation date (newest first)
     @Query("SELECT p FROM Post p ORDER BY p.createdAt DESC")
     List<Post> findAllPostsOrderByCreatedAtDesc();
-
-    // Find posts by a specific author (assuming a 'author' field in Post)
-    List<Post> findByAuthorId(Long authorId);
-
 }
