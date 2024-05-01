@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Blog</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>User Blog</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to My Blog</h1>
-    <p>This is a simple blog application.</p>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome to User Blog</h1>
+        <section class="posts">
+            <c:forEach items="${posts}" var="post">
+                <h2><c:out value="${post.title}" /></h2>
+                <p><c:out value="${post.content}" /></p>
+            </c:forEach>            
+        </section>
+    </main>
+    <footer>
+        <p>Copyright © 2024 UserBlog. All rights reserved.</p>
+    </footer>
 </body>
 </html>

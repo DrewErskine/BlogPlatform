@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults; // Importing withDefaults method
 
@@ -45,5 +47,15 @@ public class SecurityConfig {
                         .roles("ADMIN")
                         .build();
         return new InMemoryUserDetailsManager(user, admin);
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        return DataSourceBuilder.create()
+                .url("jdbc:mysql://localhost:3306/your_database_name")
+                .username("your_username")
+                .password("your_password")
+                .driverClassName("com.mysql.cj.jdbc.Driver")
+                .build();
     }
 }
