@@ -18,18 +18,15 @@ public class Post {
     private String content;
     private LocalDateTime createdAt;
 
-    // Default constructor (required by JPA)
     public Post() {
     }
 
-    // Constructor with title and content
     public Post(String title, String content) {
         this.title = title;
         this.content = content;
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

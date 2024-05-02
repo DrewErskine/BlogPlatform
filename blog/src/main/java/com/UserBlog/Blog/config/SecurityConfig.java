@@ -20,10 +20,10 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/posts/**").authenticated() // Requires authentication for all post endpoints
-                .requestMatchers("/admin/**").hasRole("ADMIN") // Requires role ADMIN for /admin endpoint
+                .requestMatchers("/api/posts/**").authenticated() 
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll())
-            .httpBasic(Customizer.withDefaults()); // Use Basic Authentication with default configurations
+            .httpBasic(Customizer.withDefaults()); 
 
         return http.build();
     }

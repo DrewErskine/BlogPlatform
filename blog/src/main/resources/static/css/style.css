@@ -57,7 +57,6 @@ footer p {
     margin: 0;
 }
 
-/* Basic body styling */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f7f7f7;
@@ -68,7 +67,6 @@ body {
     margin: 0;
 }
 
-/* Styling the login container */
 .login-container {
     background: white;
     padding: 40px;
@@ -82,7 +80,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Styling form groups */
 .form-group {
     margin-bottom: 15px;
 }
@@ -100,7 +97,6 @@ body {
     border-radius: 4px;
 }
 
-/* Styling the submit button */
 button {
     width: 100%;
     padding: 10px;

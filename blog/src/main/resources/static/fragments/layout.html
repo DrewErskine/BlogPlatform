@@ -74,7 +74,6 @@
         </nav>
     </header>
     
-    <!-- Main content area -->
     <div id="content">
         <h2>Welcome to Our Website</h2>
         <h3>Recent Blog Posts</h3>
@@ -85,11 +84,8 @@
                 <p>Author: <span>${post.author}</span></p>
             </div>
         </c:forEach>
-        <!-- Button to go to blogForm.html -->
         <a href="${pageContext.request.contextPath}/blogForm" class="button">Create New Blog Post</a>
     </div>
-
-    <!-- Optional: JavaScript at the bottom for fast page loading -->
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
 </body>
 </html>

@@ -12,14 +12,11 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    // Find posts by title containing a string (case-insensitive)
     List<Post> findByTitleContainingIgnoreCase(String title);
 
-    // Custom query using JPQL to fetch posts by content keyword
     @Query("SELECT p FROM Post p WHERE LOWER(p.content) LIKE LOWER(CONCAT('%',:keyword,'%'))")
     List<Post> findByContentContaining(@Param("keyword") String keyword);
 
-    // Retrieve all posts sorted by creation date (newest first)
     @Query("SELECT p FROM Post p ORDER BY p.createdAt DESC")
     List<Post> findAllPostsOrderByCreatedAtDesc();
 }

@@ -23,7 +23,6 @@ public class LoginControllerTests {
 
     @BeforeEach
     public void setup() {
-        // Set up MockMvc to use web application context setup for integrating with actual app configurations
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 

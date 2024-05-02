@@ -14,18 +14,18 @@ public class PostTests {
     @DisplayName("Test Post Model Setters and Getters")
     @Test
     void testPostSettersAndGetters() {
-        Long postId = 1L; // Simulated post ID
-        String title = "Test Title"; // Simulated title
-        String content = "Test content"; // Simulated content
-        LocalDateTime now = LocalDateTime.now(); // Current time for createdAt
+        Long postId = 1L; // ID
+        String title = "Test Title"; // title
+        String content = "Test content"; // content
+        LocalDateTime now = LocalDateTime.now(); // Current time
     
-        Post post = new Post(); // Instantiate Post object
+        Post post = new Post(); // Post object
         post.setId(postId); // Set post ID
         post.setTitle(title); // Set title
         post.setContent(content); // Set content
-        post.setCreatedAt(now); // Set creation date using LocalDateTime
+        post.setCreatedAt(now); // Set creation date
     
-        LocalDateTime expectedCreatedAt = now; // expected value
+        LocalDateTime expectedCreatedAt = now; 
     
         assertThat(post).extracting(Post::getId, Post::getTitle, Post::getContent, Post::getCreatedAt)
                         .containsExactly(postId, title, content, expectedCreatedAt);

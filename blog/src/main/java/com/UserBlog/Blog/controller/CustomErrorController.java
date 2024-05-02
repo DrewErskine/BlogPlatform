@@ -20,8 +20,8 @@ public class CustomErrorController implements ErrorController {
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error-500";
             }
-            // Add more error types as necessary
+            
         }
-        return "error"; // General error view
+        return "error";
     }
 }

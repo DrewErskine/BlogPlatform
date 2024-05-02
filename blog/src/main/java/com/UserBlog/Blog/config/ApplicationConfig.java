@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.UserBlog.Blog.repository")  // Specify your JPA repositories package
+@EnableJpaRepositories(basePackages = "com.UserBlog.Blog.repository")  // JPA repository
 @EnableTransactionManagement
 public class ApplicationConfig {
 
