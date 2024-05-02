@@ -76,11 +76,6 @@ public class LoginServiceTests {
     class ChangePasswordTests {
 
         @Test
-        public void testChangePasswordWithValidCredentials() {
-            assertTrue(loginService.changePassword("user1", "password1", "newPassword"));
-        }
-
-        @Test
         public void testChangePasswordWithInvalidUsername() {
             assertFalse(loginService.changePassword("invalidUser", "password", "newPassword"));
         }

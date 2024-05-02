@@ -12,6 +12,9 @@ import com.UserBlog.Blog.service.PostService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -20,7 +23,7 @@ public class BlogApplicationTests {
     @Autowired
     private ApplicationContext context;
 
-    @Autowired // Directly autowire the PostService
+    @Autowired
     private PostService postService;
 
     @MockBean
@@ -33,12 +36,18 @@ public class BlogApplicationTests {
 
     @Test
     void shouldContainServiceBean() {
-        assertThat(postService).as("Check that PostService is correctly instantiated").isNotNull();
+        assertThat(postService).isNotNull();
     }
 
     @Test
     void postServiceInteractions() {
+        // Given
+        when(postRepository.findAll()).thenReturn(Collections.emptyList());
+        
+        // When
         postService.findAllPosts();
-        verify(postRepository).findAll(); // Verify that findAll is called when findAllPosts is invoked
+        
+        // Then
+        verify(postRepository).findAll();
     }
 }

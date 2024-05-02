@@ -40,7 +40,11 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
-        return ResponseEntity.ok().build();
-    }
+        return postService.findPostById(id)
+                          .map(post -> {
+                              postService.deletePost(id);
+                              return ResponseEntity.ok().<Void>build();
+                          })
+                          .orElseGet(() -> ResponseEntity.notFound().build());
+    }    
 }

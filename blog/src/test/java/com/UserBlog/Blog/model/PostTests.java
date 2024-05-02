@@ -2,6 +2,7 @@ package com.UserBlog.Blog.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,15 +18,16 @@ public class PostTests {
         String title = "Test Title"; // Simulated title
         String content = "Test content"; // Simulated content
         LocalDateTime now = LocalDateTime.now(); // Current time for createdAt
-
+    
         Post post = new Post(); // Instantiate Post object
         post.setId(postId); // Set post ID
         post.setTitle(title); // Set title
         post.setContent(content); // Set content
-        post.setCreatedAt(now); // Set creation date
-
+        post.setCreatedAt(now); // Set creation date using LocalDateTime
+    
+        LocalDateTime expectedCreatedAt = now; // expected value
+    
         assertThat(post).extracting(Post::getId, Post::getTitle, Post::getContent, Post::getCreatedAt)
-        .containsExactly(postId, title, content, now);
-
+                        .containsExactly(postId, title, content, expectedCreatedAt);
     }
 }

@@ -2,8 +2,10 @@ package com.UserBlog.Blog.service;
 
 import com.UserBlog.Blog.model.Post;
 import com.UserBlog.Blog.repository.PostRepository;
+
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,8 +14,26 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+        private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
+    }
+
+    public List<Post> findByTitleContainingIgnoreCase(String title) {
+        return postRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Post> findAllPostsOrderByCreatedAtDesc() {
+        return postRepository.findAllPostsOrderByCreatedAtDesc(); // Define this method
     }
 
     public List<Post> findAllPosts() {
