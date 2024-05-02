@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to My Blog</title>
-    <link href="/css/style.css" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- Link to your CSS file -->
+    <link href="../static/css/style.css" rel="stylesheet">
 </head>
 <body>
     <header>
-        <!-- Your header content goes here -->
+        <!-- Header content -->
         <h1>Welcome to Your Blog</h1>
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./login.html">Login</a></li>
                 <!-- Add more navigation links as needed -->
             </ul>
         </nav>
@@ -27,21 +27,20 @@
             <!-- Sample blog post, replace with dynamic content from backend -->
             <div class="blog-post">
                 <h3>Blog Post Title</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                <p>Author: John Doe</p>
+                <p>Author: Drew Erskine</p>
             </div>
             <!-- Repeat the above div for each blog post -->
         </div>
 
         <!-- Button to navigate to the blog post creation page -->
-        <a href="/blogForm" class="button">Create New Blog Post</a>
+        <a href="./blogForm.html" class="button">Create New Blog Post</a>
     </main>
 
     <aside>
         <!-- Login form -->
         <div class="login-container">
             <h2>Login</h2>
-            <form action="/login" method="post">
+            <form action="./login.html" method="post">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit">Login</button>
