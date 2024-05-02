@@ -18,7 +18,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity in this example
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/posts/**").authenticated() // Requires authentication for all post endpoints
                 .requestMatchers("/admin/**").hasRole("ADMIN") // Requires role ADMIN for /admin endpoint

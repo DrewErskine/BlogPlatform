@@ -16,6 +16,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.security:spring-security-config'
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+
 
     runtimeOnly 'mysql:mysql-connector-java:8.0.33'
     runtimeOnly 'org.hsqldb:hsqldb:2.6.0'
