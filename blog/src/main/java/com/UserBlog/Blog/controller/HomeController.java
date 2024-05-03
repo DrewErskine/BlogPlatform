@@ -19,6 +19,8 @@ public class HomeController {
     public String home(Model model) {
         List<Post> posts = postService.findAllPosts();
         model.addAttribute("posts", posts);
-        return "index.html";
+        return "index";
     }
+
+    
 }

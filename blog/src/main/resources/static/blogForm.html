@@ -2,14 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Your Website Title</title>
-    <link href="/css/style.css" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <title>Create New Blog Post</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/style.css" rel="stylesheet">
     <style>
-        /* Centering the header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f4f4f4;
+        }
+
         header {
+            background: #333;
+            color: #fff;
+            padding: 20px 0; /* Adjust the padding as needed */
             text-align: center;
-            padding: 20px 0; /* Add padding for better spacing */
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            text-align: center;
+        }
+
+        .posts {
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #333;
+            color: white;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none; /* Prevent resizing */
+            max-height: 200px; /* Limit height */
+            overflow-y: auto; /* Add scrollbar if needed */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -19,9 +127,20 @@
         <a href="index.html" class="button">Go to Home</a>
     </header>
     <main>
-        <h2>Welcome to Our Website</h2>
-        <h3>Recent Blog Posts</h3>
-        <a href="blogForm.html" class="button">Create New Blog Post</a>
+        <h2>Create New Blog Post</h2>
+        <form action="/savePost" method="post">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div>
+                <label for="content">Content:</label> <!-- Added label for better accessibility -->
+                <textarea id="content" name="content" rows="5" maxlength="3333" required></textarea> <!-- Added maxlength attribute -->
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
     </main>
 </body>
 </html>
