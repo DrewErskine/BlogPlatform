@@ -5,9 +5,19 @@
     <title>Your Website Title</title>
     <link href="/css/style.css" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
-
+    <style>
+        /* Centering the header */
+        header {
+            text-align: center;
+            padding: 20px 0; /* Add padding for better spacing */
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Your Website Header</h1>
+        <a href="index.html" class="button">Go to Home</a>
+    </header>
     <main>
         <h2>Welcome to Our Website</h2>
         <h3>Recent Blog Posts</h3>
