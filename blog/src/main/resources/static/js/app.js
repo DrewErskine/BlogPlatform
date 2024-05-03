@@ -11,15 +11,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Post submitted successfully!');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Failed to submit post.');
-            });
+            .then(response => {
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  throw new Error('Network response was not ok.');
+                }
+              })
+              
         });
     }
 });
