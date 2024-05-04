@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+
 
 import java.util.List;
 
@@ -46,5 +48,12 @@ public class PostController {
                               return ResponseEntity.ok().<Void>build();
                           })
                           .orElseGet(() -> ResponseEntity.notFound().build());
-    }    
+    } 
+
+    @PostMapping("/login.html")
+    public String handleLogin(@RequestParam String username, @RequestParam String password, Model model) {
+        // authentication logic here
+        return "redirect:/home";
+    }
+
 }

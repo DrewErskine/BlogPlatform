@@ -1,15 +1,12 @@
 package com.UserBlog.Blog.config;
 
 import javax.sql.DataSource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
@@ -18,9 +15,12 @@ import jakarta.persistence.EntityManagerFactory;
 public class ApplicationConfig {
 
     @Bean(name = "applicationDataSource")
-    public DataSource applicationDataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.HSQL)
+    public DataSource dataSource() {
+        return DataSourceBuilder.create()
+                .url("jdbc:mysql://localhost:3306/blog?useSSL=false&serverTimezone=UTC")
+                .username("root")
+                .password("Devindrew42!")
+                .driverClassName("com.mysql.cj.jdbc.Driver")
                 .build();
     }
 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Home</title>
+    <link href="../static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .blog-post {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border: 1px solid #e1e1e1;
+            border-radius: 5px;
+        }
+
+        .blog-post h3 {
+            color: #333;
+        }
+
+        .blog-post p {
+            color: #666;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Blog</h1>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./blogHome.html">Blog Home</a></li>
+                <li><a href="./login.html">Login</a></li>
+                <li><a href="./blogForm.html">Create Post</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>All Blog Posts</h2>
+        <div id="posts-container">
+        </div>
+    </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const postsContainer = document.getElementById("posts-container");
+        postsContainer.innerHTML = '<p>Loading posts...</p>';
+        fetch('/api/posts')
+            .then(response => response.json())
+            .then(posts => {
+                postsContainer.innerHTML = '';
+                posts.forEach(post => {
+                    const postElement = document.createElement("div");
+                    postElement.className = 'blog-post';
+                    postElement.innerHTML = `
+                        <h3>${post.title}</h3>
+                        <p>Author: ${post.author || 'Anonymous'}</p>
+                        <p>${post.content.substring(0, 200)}...</p>
+                        <a href="./post.html?id=${post.id}" class="button">Read More</a>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading posts:', error);
+                postsContainer.innerHTML = '<p>Error loading posts.</p>';
+            });
+    });
+    </script>
+</body>
+</html>

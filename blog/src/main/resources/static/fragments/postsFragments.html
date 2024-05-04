@@ -1,0 +1,7 @@
+<!-- postsFragment.html -->
+<div class="blog-post">
+    <h3 th:text="${post.title}"></h3>
+    <p>Author: <span th:text="${post.author != null ? post.author : 'Anonymous'}"></span></p>
+    <p th:text="${#strings.substring(post.content, 0, 200)} + '...'"></p>
+    <a th:href="'./post.html?id=' + ${post.id}" class="button">Read More</a>
+</div>

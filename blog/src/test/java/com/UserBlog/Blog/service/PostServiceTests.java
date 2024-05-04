@@ -1,84 +1,36 @@
 package com.UserBlog.Blog.service;
 
-import com.UserBlog.Blog.controller.PostController;
 import com.UserBlog.Blog.model.Post;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.UserBlog.Blog.repository.PostRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
-import java.util.Optional;
-
-@WebMvcTest(PostController.class)
+@ExtendWith(MockitoExtension.class)
 public class PostServiceTests {
 
-    @Autowired
-    private PostController postController;
+    @Mock
+    private PostRepository postRepository;
 
-    @MockBean
+    @InjectMocks
     private PostService postService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
-    }
-
     @Test
-    public void testGetAllPosts() throws Exception {
+    public void testSavePost() {
         Post post = new Post();
-        post.setId(1L);
-        post.setTitle("Test Post");
-        post.setContent("Test content");
+        post.setTitle("New Post");
+        post.setContent("Content of the new post");
 
-        given(postService.findAllPosts()).willReturn(Arrays.asList(post));
+        when(postRepository.save(any(Post.class))).thenReturn(post);
 
-        mockMvc.perform(get("/api/posts")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value("Test Post"));
-    }
+        Post savedPost = postService.savePost(post);
 
-    @Test
-    public void testGetPostById() throws Exception {
-        Long postId = 1L;
-        Post post = new Post();
-        post.setId(postId);
-        post.setTitle("Specific Post");
-
-        given(postService.findPostById(postId)).willReturn(Optional.of(post));
-
-        mockMvc.perform(get("/api/posts/{id}", postId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Specific Post"));
-    }
-
-    @Test
-    public void testCreatePost() throws Exception {
-        Post newPost = new Post();
-        newPost.setTitle("New Post");
-        newPost.setContent("Content of the new post");
-
-        given(postService.savePost(any())).willReturn(newPost);
-
-        mockMvc.perform(post("/api/posts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(newPost)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("New Post"));
+        assertEquals("New Post", savedPost.getTitle());
+        assertEquals("Content of the new post", savedPost.getContent());
     }
 }

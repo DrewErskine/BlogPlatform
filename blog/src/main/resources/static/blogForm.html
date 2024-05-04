@@ -100,9 +100,9 @@
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            resize: none; /* Prevent resizing */
-            max-height: 200px; /* Limit height */
-            overflow-y: auto; /* Add scrollbar if needed */
+            resize: none;
+            max-height: 200px; 
+            overflow-y: auto;
         }
 
         button {
@@ -157,8 +157,7 @@
             }).then(response => response.json())
               .then(data => {
                   console.log('Success:', data);
-                  // Optionally redirect the user or clear the form
-                  window.location.href = '/some-success-page'; // Redirect or handle success
+                  window.location.href = './blogHome.html';
               })
               .catch((error) => {
                   console.error('Error:', error);
