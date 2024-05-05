@@ -1,6 +1,5 @@
 package com.UserBlog.Blog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,12 +16,15 @@ import com.UserBlog.Blog.service.UserService;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/login")
     public String login() {
-        return "login.html";
+        return "login";
     }
 
     @PostMapping("/login")
@@ -33,18 +35,26 @@ public class UserController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "register.html";
+        return "register";
     }
 
     @PostMapping("/register")
     public String processRegistration(@Validated @ModelAttribute("user") User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "register.html";
+            return "register";
         }
-    
-        if (userService.existsByUsername(user.getUsername()) || userService.existsByEmail(user.getEmail())) {
-            result.rejectValue("username", "error.user", "Username or email already exists");
-            return "register.html";
+
+        boolean usernameExists = userService.existsByUsername(user.getUsername());
+        boolean emailExists = userService.existsByEmail(user.getEmail());
+
+        if (usernameExists || emailExists) {
+            if (usernameExists) {
+                result.rejectValue("username", "error.user", "An account with this username already exists.");
+            }
+            if (emailExists) {
+                result.rejectValue("email", "error.user", "An account with this email already exists.");
+            }
+            return "register";
         }
     
         userService.save(user);
