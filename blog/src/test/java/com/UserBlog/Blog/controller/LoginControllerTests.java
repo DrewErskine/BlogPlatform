@@ -15,7 +15,7 @@ public class LoginControllerTests{
     private Model model;
 
     @InjectMocks
-    private LoginController loginController;
+    private UserController loginController;
 
     @Test
     public void testLogin() {
