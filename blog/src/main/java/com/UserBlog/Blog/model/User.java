@@ -1,13 +1,10 @@
 package com.UserBlog.Blog.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -17,14 +14,24 @@ public class User {
     private String email;
     private String password;
 
+    // Relationship with Authority
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "user_authority",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = "name")
+    )
+    private Set<Authority> authorities;
+
     // Constructors
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, Set<Authority> authorities) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.authorities = authorities;
     }
 
     // Getters and Setters
@@ -60,13 +67,22 @@ public class User {
         this.password = password;
     }
 
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='[PROTECTED]'" +
+                ", authorities=" + authorities +
                 '}';
     }
 }
