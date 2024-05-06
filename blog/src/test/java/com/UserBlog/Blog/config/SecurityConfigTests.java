@@ -1,5 +1,6 @@
 package com.UserBlog.Blog.config;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -36,14 +37,16 @@ public class SecurityConfigTests {
 
     @Test
     void authenticationSucceedsForValidUser() {
-        String username = "root";
-        String password = "Devindrew42!"; // Make sure this is the raw password used in your configuration
+        String username = "user";
+        String password = "password"; // Ensure this is the raw password used in userDetailsService
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-    
-        // This checks if authentication is successful
-        assertThat(authenticationManager.authenticate(token)).isNotNull();
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        assertTrue(authentication.isAuthenticated());
     }
+    
+    
 
     @Test
     void passwordEncodingWorks() {
