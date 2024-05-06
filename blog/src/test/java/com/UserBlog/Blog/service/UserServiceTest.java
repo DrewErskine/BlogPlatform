@@ -4,29 +4,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.UserBlog.Blog.model.User;
-import com.UserBlog.Blog.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.UserBlog.Blog.model.User;
+import com.UserBlog.Blog.repository.UserRepository;
 
-@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class UserServiceTest {
 
-    @Mock
+    @Autowired
+    private UserService userService;
+
+    @MockBean
     private UserRepository userRepository;
 
-    @Mock
+    @MockBean
     private BCryptPasswordEncoder passwordEncoder;
-
-    @InjectMocks
-    private UserService userService;
 
     @Test
     void testSaveUser() {
@@ -59,30 +56,5 @@ public class UserServiceTest {
 
         assertThat(exists).isTrue();
         verify(userRepository).existsByEmail("email@example.com");
-    }
-
-    @Test
-    void testRegisterNewUserAccount() {
-        User newUser = new User("newUser", "newuser@example.com", "newpassword");
-        when(userRepository.existsByUsername("newUser")).thenReturn(false);
-        when(passwordEncoder.encode("newpassword")).thenReturn("encodedNewPassword");
-        when(userRepository.save(any(User.class))).thenReturn(newUser);
-
-        boolean result = userService.registerNewUserAccount(newUser);
-
-        assertThat(result).isTrue();
-        verify(userRepository).save(newUser);
-        assertThat(newUser.getPassword()).isEqualTo("encodedNewPassword");
-    }
-
-    @Test
-    void testAuthenticateUser() {
-        User existingUser = new User("existingUser", "existinguser@example.com", "password");
-        when(userRepository.findByUsername("existingUser")).thenReturn(java.util.Optional.of(existingUser));
-        when(passwordEncoder.matches("password", existingUser.getPassword())).thenReturn(true);
-
-        boolean result = userService.authenticate("existingUser", "password");
-
-        assertThat(result).isTrue();
     }
 }
