@@ -41,10 +41,13 @@ public class BlogApplicationTests {
 
     @Test
     void postServiceInteractions() {
+        // Given
         when(postRepository.findAll()).thenReturn(Collections.emptyList());
         
+        // When
         postService.findAllPosts();
         
+        // Then
         verify(postRepository).findAll();
     }
 }

@@ -14,7 +14,7 @@ import jakarta.persistence.EntityManagerFactory;
 @EnableTransactionManagement
 public class ApplicationConfig {
 
-    @Bean(name = "DataSource")
+    @Bean(name = "applicationDataSource")
     public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .url("jdbc:mysql://localhost:3306/blog?useSSL=false&serverTimezone=UTC")
