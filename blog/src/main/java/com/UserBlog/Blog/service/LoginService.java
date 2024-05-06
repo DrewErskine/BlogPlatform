@@ -17,7 +17,7 @@ public class LoginService implements UserDetailsService {
     public LoginService(BCryptPasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
 
-        // Initialize with dummy users
+
         users.put("user1", passwordEncoder.encode("password1"));
         users.put("user2", passwordEncoder.encode("password2"));
     }
@@ -31,62 +31,50 @@ public class LoginService implements UserDetailsService {
         this.users.putAll(users);
     }
 
-    // Authenticate user
     public boolean authenticate(String username, String password) {
-        // Check if user exists
         if (users.containsKey(username)) {
-            // Check if password matches
             String hashedPassword = users.get(username);
             return passwordEncoder.matches(password, hashedPassword);
         }
         return false;
     }
 
-    // Register new user
     public boolean registerUser(String username, String password) {
-        // Check if user already exists
         if (!users.containsKey(username)) {
-            // Hash the password before storing
             String hashedPassword = passwordEncoder.encode(password);
             users.put(username, hashedPassword);
             return true;
         }
-        return false; // User already exists
+        return false;
     }
 
-    // Change user password
     public boolean changePassword(String username, String oldPassword, String newPassword) {
-        // Check if user exists
         if (users.containsKey(username)) {
-            // Check if old password matches
             String hashedPassword = users.get(username);
             if (passwordEncoder.matches(oldPassword, hashedPassword)) {
-                // Hash the new password before updating
                 String newHashedPassword = passwordEncoder.encode(newPassword);
                 users.put(username, newHashedPassword);
-                return true; // Password updated successfully
+                return true;
             }
         }
-        return false; // User not found or old password is incorrect
+        return false;
     }
 
-    // Reset user password
+    
     public boolean resetPassword(String username) {
-        // Check if user exists
+        
         if (users.containsKey(username)) {
-            // Generate a new random password or implement your own logic
-            String newPassword = generateRandomPassword(); // Example: Generate a random password
-            // Hash the new password before updating
+            
+            String newPassword = generateRandomPassword(); 
             String newHashedPassword = passwordEncoder.encode(newPassword);
             users.put(username, newHashedPassword);
-            return true; // Password reset successfully
+            return true;
         }
-        return false; // User not found
+        return false; 
     }
 
-    // Generate a random password (dummy implementation)
+   
     private String generateRandomPassword() {
-        // Implement your own logic to generate a random password
         return "newPassword123";
     }
     
@@ -99,7 +87,7 @@ public class LoginService implements UserDetailsService {
         return User.builder()
             .username(username)
             .password(password)
-            .roles("USER") // You can customize roles based on your application needs
+            .roles("USER")
             .build();
     }
 }
