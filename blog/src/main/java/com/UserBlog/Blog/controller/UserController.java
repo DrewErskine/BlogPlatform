@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.service.UserService;
@@ -19,7 +20,7 @@ import com.UserBlog.Blog.service.LoginService;
 public class UserController {
 
     private final UserService userService;
-    private final LoginService loginService; // Inject the LoginService
+    private final LoginService loginService;
 
     // Constructor injection for services
     public UserController(UserService userService, LoginService loginService) {
@@ -35,13 +36,13 @@ public class UserController {
 
     // Handle login data
     @PostMapping("/login")
-    public String processLogin(@ModelAttribute("user") User user, Model model) {
-        boolean isAuthenticated = loginService.authenticate(user.getUsername(), user.getPassword());
+    public String processLogin(@RequestParam String username, @RequestParam String password, Model model) {
+        boolean isAuthenticated = loginService.authenticate(username, password);
         if (isAuthenticated) {
-            return "redirect:/home"; // Redirect to home page or dashboard
+            return "redirect:/home"; 
         } else {
             model.addAttribute("loginError", "Invalid username or password.");
-            return "login"; // Stay on login page showing error
+            return "login";
         }
     }
 
@@ -65,6 +66,6 @@ public class UserController {
         }
 
         userService.save(user);
-        return "redirect:/login"; // Redirect to login page after successful registration
+        return "redirect:/login";
     }
 }

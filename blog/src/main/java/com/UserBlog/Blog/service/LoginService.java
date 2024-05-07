@@ -16,9 +16,7 @@ public class LoginService implements UserDetailsService {
 
     public LoginService(BCryptPasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-
-
-        users.put("user1", passwordEncoder.encode("password1"));
+        users.put("Drew", passwordEncoder.encode("Luf"));
         users.put("user2", passwordEncoder.encode("password2"));
     }
 

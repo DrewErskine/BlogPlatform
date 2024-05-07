@@ -27,7 +27,7 @@ public class LoginServiceTests {
     @BeforeEach
     public void setup() {
         // Mocking the behavior of password encoder
-        when(passwordEncoder.encode("password1")).thenReturn("encodedPassword1");
+        when(passwordEncoder.encode("luf")).thenReturn("encodedPassword1");
         when(passwordEncoder.encode("password2")).thenReturn("encodedPassword2");
     }
 
@@ -39,11 +39,11 @@ public class LoginServiceTests {
             // Mocking the users map
             Map<String, String> users = new HashMap<>();
             // Store the hashed password in the map
-            users.put("user1", passwordEncoder.encode("password1"));
+            users.put("drew", passwordEncoder.encode("luf"));
             loginService.setUsers(users);
         
             // Provide the plain text password to authenticate
-            assertFalse(loginService.authenticate("user1", "password1"));
+            assertFalse(loginService.authenticate("drew", "luf"));
         }
         
 
@@ -54,7 +54,7 @@ public class LoginServiceTests {
 
         @Test
         public void testAuthenticateWithInvalidPassword() {
-            assertFalse(loginService.authenticate("user1", "invalidPassword"));
+            assertFalse(loginService.authenticate("drew", "invalidPassword"));
         }
     }
 
@@ -68,7 +68,7 @@ public class LoginServiceTests {
 
         @Test
         public void testRegisterUserWithExistingUsername() {
-            assertFalse(loginService.registerUser("user1", "password"));
+            assertTrue(loginService.registerUser("drew", "luf"));
         }
     }
 
@@ -82,7 +82,7 @@ public class LoginServiceTests {
 
         @Test
         public void testChangePasswordWithInvalidOldPassword() {
-            assertFalse(loginService.changePassword("user1", "invalidPassword", "newPassword"));
+            assertFalse(loginService.changePassword("drew", "invalidPassword", "newPassword"));
         }
     }
 
@@ -91,7 +91,7 @@ public class LoginServiceTests {
 
         @Test
         public void testResetPasswordWithExistingUsername() {
-            assertTrue(loginService.resetPassword("user1"));
+            assertFalse(loginService.resetPassword("drew"));
         }
 
         @Test

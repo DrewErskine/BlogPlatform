@@ -6,13 +6,11 @@
     <title>Login</title>
     <link href="../static/css/style.css" rel="stylesheet">
     <style>
-        /* Your CSS styles here */
     </style>
 </head>
 <body>
     <header>
         <h1>Login</h1>
-        <!-- You can include a navigation bar here if needed -->
     </header>
     
     <main>
@@ -37,14 +35,15 @@
 
             var username = document.getElementById('login-username').value;
             var password = document.getElementById('login-password').value;
+            console.log("Logging in:", username, password);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/user/register', true);
+            xhr.open('POST', '/api/user/login', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
 
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    window.location.href = '/dashboard'; // Redirect to dashboard on successful login
+                    window.location.href = '/dashboard';
                 } else {
                     document.getElementById('login-error').textContent = 'Invalid username or password.';
                 }

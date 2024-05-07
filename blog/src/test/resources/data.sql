@@ -1,6 +1,6 @@
 -- Initial data for `users`
 MERGE INTO users (id, username, password, email) KEY (id) VALUES
-(1, 'user1', 'password1', 'user1@example.com'),
+(1, 'drew', 'luf', 'luf@drew.com'),
 (2, 'user2', 'password2', 'user2@example.com');
 
 -- Initial data for `roles`
