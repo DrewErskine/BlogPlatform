@@ -1,27 +1,23 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* style.css */
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     color: #333;
     background: #f4f4f4;
-    margin: 0; /* Ensure no margin */
+    margin: 0; /* Reset default margin */
 }
 
 header {
     background: #333;
     color: #fff;
-    padding: 20px 0; /* Adjust the padding as needed */
+    padding: 20px 0;
     text-align: center;
 }
 
 nav ul {
     list-style: none;
+    padding: 0;
+    margin: 0; /* Reset default margin */
 }
 
 nav ul li {
@@ -41,8 +37,14 @@ main {
     margin: 20px auto;
     background: white;
     text-align: center;
-    height: 100vh; /* Set height to 100% of viewport height */
-    overflow-y: auto; /* Add vertical scroll if content exceeds viewport height */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds subtle shadow around <main> */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #333;
+    color: white;
 }
 
 .posts {
@@ -54,13 +56,16 @@ main {
     overflow-y: auto;
 }
 
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background: #333;
-    color: white;
-}
+/* Responsive styles for screens with a max width of 600px */
+@media (max-width: 600px) {
+    nav ul li {
+        display: block; /* Stack nav items vertically on small screens */
+        margin-right: 0;
+        text-align: center;
+    }
 
-footer p {
-    margin: 0;
+    main {
+        padding: 10px;
+        max-width: 100%;
+    }
 }

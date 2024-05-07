@@ -22,6 +22,9 @@ public class Post {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "author_id", nullable = false, updatable = false)
+    private int author_id;
+
     public Post() {
     }
 

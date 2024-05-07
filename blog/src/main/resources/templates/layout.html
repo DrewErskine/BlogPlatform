@@ -1,39 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>${pageTitle}</title>
-    <link href="../static/css/style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Default Title</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <header>
-        <h1>My Application</h1>
-        <nav>
-            <ul>
-                <li><a href="./index.html">Home</a></li>
-                <li><a href="./index.html">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <div id="content">
-        <h2>${pageTitle}</h2>
-        <h3>Recent Blog Posts</h3>
-        <c:forEach var="post" items="${recentPosts}">
-            <div class="post">
-                <h4>${post.title}</h4>
-                <p>${post.content}</p>
-                <p>Author: <span>${post.author}</span></p>
-            </div>
-        </c:forEach>
-        <a href="./blogForm.html" class="button">Create New Blog Post</a>
+    <header th:replace="fragments/header :: header"></header>
+
+    <div th:fragment="content(body)">
+        <main th:replace="${body}"></main>
     </div>
-    <footer>
-        &copy; 2024 Your Company Name. All rights reserved.
-    </footer>
-    <script src="../static/js/app.js"></script>
+
+    <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

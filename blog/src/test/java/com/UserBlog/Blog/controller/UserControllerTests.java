@@ -83,7 +83,7 @@ public class UserControllerTests {
     public void processRegistration_ShouldRedirectOnSuccess() throws Exception {
         Set<Authority> authorities = new HashSet<>();
         authorities.add(new Authority("ROLE_USER"));
-        User newUser = new User("newUser", "new@example.com", "password123", authorities);
+        User newUser = new User(null, "newUser", "new@example.com", "password123", authorities);
 
         given(userService.existsByUsername("newUser")).willReturn(false);
         given(userService.existsByEmail("new@example.com")).willReturn(false);
@@ -100,7 +100,7 @@ public class UserControllerTests {
     public void processRegistration_ShouldReturnRegisterViewOnError() throws Exception {
         Set<Authority> authorities = new HashSet<>();
         authorities.add(new Authority("ROLE_USER"));
-        User newUser = new User("newUser", "user@example.com", "password123", authorities);
+        User newUser = new User(null, "newUser", "user@example.com", "password123", authorities);
 
         given(userService.existsByUsername("newUser")).willReturn(true);
 

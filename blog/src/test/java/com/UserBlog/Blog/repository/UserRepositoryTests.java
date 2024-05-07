@@ -24,7 +24,7 @@ public class UserRepositoryTests {
 
     @Test
     public void testFindByUsername() {
-        User user = new User("testuser", "testemail@example.com", "password", null);
+        User user = new User(null, "testuser", "testemail@example.com", "password", null);
 
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
 
@@ -40,7 +40,7 @@ public class UserRepositoryTests {
 
     @Test
     public void testFindByEmail() {
-        User user = new User("testuser", "testemail@example.com", "password", null);
+        User user = new User(null, "testuser", "testemail@example.com", "password", null);
 
         when(userRepository.findByEmail("testemail@example.com")).thenReturn(Optional.of(user));
 

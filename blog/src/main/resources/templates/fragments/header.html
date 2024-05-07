@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}">Page Title</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Blog</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/register}">Register</a></li>
+                <li><a th:href="@{/blog}">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>
