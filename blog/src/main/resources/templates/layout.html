@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${pageTitle}</title>
-    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -14,9 +13,8 @@
         <h1>My Application</h1>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/about">About</a></li>
-                <li><a href="${pageContext.request.contextPath}/contact">Contact</a></li>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./index.html">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -31,11 +29,11 @@
                 <p>Author: <span>${post.author}</span></p>
             </div>
         </c:forEach>
-        <a href="${pageContext.request.contextPath}/blogForm" class="button">Create New Blog Post</a>
+        <a href="./blogForm.html" class="button">Create New Blog Post</a>
     </div>
     <footer>
         &copy; 2024 Your Company Name. All rights reserved.
     </footer>
-    <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="../static/js/app.js"></script>
 </body>
 </html>

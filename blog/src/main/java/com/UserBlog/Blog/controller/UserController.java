@@ -1,9 +1,10 @@
 package com.UserBlog.Blog.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,46 +12,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.service.UserService;
+import com.UserBlog.Blog.service.LoginService;
 
 @Controller
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
+    private final LoginService loginService; // Inject the LoginService
 
-    // Constructor for dependency injection
-    public UserController(UserService userService) {
+    // Constructor injection for services
+    public UserController(UserService userService, LoginService loginService) {
         this.userService = userService;
+        this.loginService = loginService;
     }
 
+    // Display login form
     @GetMapping("/login")
     public String login() {
-        return "login.html";
+        return "login";
     }
 
+    // Handle login data
     @PostMapping("/login")
-    public String processLogin() {
-        return "redirect:/";
+    public String processLogin(@ModelAttribute("user") User user, Model model) {
+        boolean isAuthenticated = loginService.authenticate(user.getUsername(), user.getPassword());
+        if (isAuthenticated) {
+            return "redirect:/home"; // Redirect to home page or dashboard
+        } else {
+            model.addAttribute("loginError", "Invalid username or password.");
+            return "login"; // Stay on login page showing error
+        }
     }
 
+    // Display registration form
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "register.html";
+        return "register";
     }
 
+    // Process registration
     @PostMapping("/register")
-    public String processRegistration(@Validated @ModelAttribute("user") User user, BindingResult result, Model model) {
+    public String processRegistration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "register.html";
+            return "register";
         }
-    
+        
         if (userService.existsByUsername(user.getUsername()) || userService.existsByEmail(user.getEmail())) {
-            result.rejectValue("username", "error.user", "Username or email already exists");
-            return "register.html";
+            model.addAttribute("registrationError", "Username or email already exists.");
+            return "register";
         }
-    
+
         userService.save(user);
-        return "redirect:/api/users/login";
-    }    
+        return "redirect:/login"; // Redirect to login page after successful registration
+    }
 }

@@ -3,6 +3,7 @@ package com.UserBlog.Blog.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,9 +13,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor // This annotation will generate a constructor with all class fields as parameters
 @ToString
 public class Authority {
-
     @Id
     @Column(length = 16)
     private String name;

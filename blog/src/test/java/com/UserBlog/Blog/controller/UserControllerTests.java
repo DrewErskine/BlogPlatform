@@ -1,26 +1,28 @@
 package com.UserBlog.Blog.controller;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
+
+import com.UserBlog.Blog.model.Authority;
+import com.UserBlog.Blog.model.User;
+import com.UserBlog.Blog.service.LoginService;
+import com.UserBlog.Blog.service.UserService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import com.UserBlog.Blog.model.User;
-import com.UserBlog.Blog.service.UserService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTests {
 
     @Autowired
@@ -29,71 +31,84 @@ public class UserControllerTests {
     @MockBean
     private UserService userService;
 
-    private Model mockModel;
-    private BindingResult mockBindingResult;
-
-    @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new UserController(userService)).build();
-        mockModel = mock(Model.class);
-        mockBindingResult = mock(BindingResult.class);
-    }
+    @MockBean
+    private LoginService loginService;
 
     @Test
-    public void testLoginView() throws Exception {
-        mockMvc.perform(get("/api/users/login"))
+    public void login_ShouldReturnLoginView() throws Exception {
+        mockMvc.perform(get("/api/user/login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("login.html"));
+                .andExpect(view().name("login"));
     }
 
     @Test
-    public void testProcessLogin() throws Exception {
-        mockMvc.perform(post("/api/users/login"))
+    public void processLogin_ShouldRedirectToHome() throws Exception {
+        // Arrange
+        String username = "user";
+        String password = "password";
+        when(loginService.authenticate(username, password)).thenReturn(true);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/user/login")
+                .param("username", username)
+                .param("password", password))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/home"));  // Ensure the redirection URL is correct based on your controller logic
+    }
+
+    @Test
+    public void processLogin_ShouldReturnLoginViewOnError() throws Exception {
+        // Arrange
+        String username = "user";
+        String password = "wrongpassword";
+        when(loginService.authenticate(username, password)).thenReturn(false);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/user/login")
+                .param("username", username)
+                .param("password", password))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(model().attributeExists("loginError"));
     }
 
     @Test
     public void testShowRegistrationForm() throws Exception {
-        mockMvc.perform(get("/api/users/register"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("register.html"));
+        mockMvc.perform(get("/api/user/register"))
+               .andExpect(status().isOk())
+               .andExpect(view().name("register"));
     }
 
     @Test
-    public void testProcessRegistration() throws Exception {
-        User newUser = new User();
-        newUser.setUsername("newUser");
-        newUser.setEmail("new@example.com");
+    public void processRegistration_ShouldRedirectOnSuccess() throws Exception {
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority("ROLE_USER"));
+        User newUser = new User("newUser", "new@example.com", "password123", authorities);
 
-        given(mockBindingResult.hasErrors()).willReturn(false);
-        given(userService.existsByUsername(any())).willReturn(false);
-        given(userService.existsByEmail(any())).willReturn(false);
+        given(userService.existsByUsername("newUser")).willReturn(false);
+        given(userService.existsByEmail("new@example.com")).willReturn(false);
 
-        mockMvc.perform(post("/api/users/register")
+        mockMvc.perform(post("/api/user/register")
                 .flashAttr("user", newUser))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/api/users/login"));
+                .andExpect(redirectedUrl("/login"));
+
+        verify(userService, times(1)).save(any(User.class));
     }
 
     @Test
-    public void testProcessRegistrationWithErrors() throws Exception {
-        User newUser = new User();
-        newUser.setUsername("newUser");
-        newUser.setEmail("user@example.com");
+    public void processRegistration_ShouldReturnRegisterViewOnError() throws Exception {
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority("ROLE_USER"));
+        User newUser = new User("newUser", "user@example.com", "password123", authorities);
 
-        // Create a BindingResult with an error
-        Errors errors = new BeanPropertyBindingResult(newUser, "user");
-        errors.rejectValue("username", "error.user", "Username already exists");
+        given(userService.existsByUsername("newUser")).willReturn(true);
 
-        // Assume userService methods that would lead to this behavior
-        given(userService.existsByUsername(newUser.getUsername())).willReturn(true);
-        given(userService.existsByEmail(newUser.getEmail())).willReturn(false);
+        mockMvc.perform(post("/api/user/register")
+                .flashAttr("user", newUser))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"));
 
-        mockMvc.perform(post("/api/users/register")
-                .flashAttr("user", newUser)
-                .flashAttr(BindingResult.MODEL_KEY_PREFIX + "user", errors))
-                .andExpect(status().isOk())  // The expected status should be OK if it returns to the form
-                .andExpect(view().name("register.html"));
+        verify(userService, never()).save(any(User.class));
     }
 }

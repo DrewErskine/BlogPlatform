@@ -21,13 +21,17 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
+                .loginPage("/")
                 .loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error")
+                .defaultSuccessUrl("/dashboard", true)
+                .failureUrl("/?error=true")
                 .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
             );
         return http.build();
     }

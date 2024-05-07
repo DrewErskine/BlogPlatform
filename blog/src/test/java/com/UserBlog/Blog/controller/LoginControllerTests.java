@@ -20,6 +20,6 @@ public class LoginControllerTests{
     @Test
     public void testLogin() {
         String viewName = loginController.login();
-        assertEquals("login.html", viewName);
+        assertEquals("login", viewName);
     }
 }
