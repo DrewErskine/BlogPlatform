@@ -1,36 +1,9 @@
-<!-- src/main/resources/templates/fragments/header.html -->
-<div th:fragment="header" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">My Project</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li th:classappend="${module == 'home' ? 'active' : ''}">
-                    <a href="#" th:href="@{/}">Home</a>
-                </li>
-                <li th:classappend="${module == 'tasks' ? 'active' : ''}">
-                    <a href="#" th:href="@{/tasks}">Tasks</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a href="#" th:href="@{/signin}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in
-                    </a>
-                </li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout
-                    </a>
-                    <form id="logoutForm" style="display: none;" action="#" th:action="@{/logout}" method="post"></form>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div th:fragment="header">
+    <h1>Welcome to Your Blog</h1>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/blogForm}">Create Post</a></li>
+        </ul>
+    </nav>
 </div>

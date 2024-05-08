@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +7,13 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to Your Blog</h1>
-        <nav>
-            <ul>
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/blogForm}">Create Post</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main layout:fragment="content">
+    <header th:replace="~{fragments/header :: header}"></header>
+    
+    <main>
+        <div th:replace="~{fragments/login-form :: login-form}"></div>
+        <div th:replace="~{fragments/register-form :: register-form}"></div>
     </main>
+    
     <script src="/js/login-register.js"></script>
 </body>
 </html>

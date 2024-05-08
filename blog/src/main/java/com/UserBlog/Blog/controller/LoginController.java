@@ -26,10 +26,10 @@ public class LoginController {
     public String processLogin(@RequestParam String username, @RequestParam String password, Model model) {
         boolean isAuthenticated = loginService.authenticate(username, password);
         if (isAuthenticated) {
-            return "redirect:/home"; 
+            return "redirect:/"; 
         } else {
             model.addAttribute("loginError", "Invalid username or password.");
-            return "redirect:/loginNow";
+            return "loginNow";
         }
     }
 }

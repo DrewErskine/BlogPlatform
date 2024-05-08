@@ -12,10 +12,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service("userDetailsService")
@@ -65,9 +67,13 @@ public class MyUserDetailsService implements UserDetailsService {
         return false;
     }
 
-    private String generateRandomPassword() {
-        // Lmao
-        return "newPassword123";
+    public String generateRandomPassword() {
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&";
+        Random rnd = new SecureRandom();
+        StringBuilder sb = new StringBuilder(12);
+        for (int i = 0; i < 12; i++)
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        return sb.toString();
     }
 
     public boolean resetPassword(String username) {

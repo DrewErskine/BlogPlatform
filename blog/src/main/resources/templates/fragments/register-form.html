@@ -1,0 +1,12 @@
+<div th:fragment="register-form">
+    <div class="form-container">
+        <h2>Register</h2>
+        <form id="register-form" action="/api/user/register" method="post">
+            <input type="text" id="register-username" name="username" placeholder="Username" required autocomplete="username">
+            <input type="email" id="register-email" name="email" placeholder="Email" required autocomplete="email">
+            <input type="password" id="register-password" name="password" placeholder="Password" required autocomplete="new-password">
+            <button type="submit" class="button">Register</button>
+            <p id="register-error" class="error-message"></p>
+        </form>
+    </div>
+</div>

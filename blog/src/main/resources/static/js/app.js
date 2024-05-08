@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
           })
           .then(data => {
               console.log('Post created:', data);
-              window.location.href = './blogForm'; // Redirect to another page
+              window.location.href = './blogForm';
           })
           .catch(error => {
               console.error('Error:', error);

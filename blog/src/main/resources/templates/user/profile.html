@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>User Profile</h1>
+</header>
+<main>
+    <h2>Profile Details</h2>
+    <div>
+        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    </div>
+    <div>
+        <a th:href="@{/api/user/edit-profile}" class="button">Edit Profile</a>
+    </div>
+</main>
+</body>
+</html>
