@@ -1,24 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Handle form submission
-    const postForm = document.getElementById("postForm");
-    if (postForm) {
-        postForm.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent default form submission
-            const formData = new FormData(postForm);
+  const postForm = document.getElementById("postForm");
+  if (postForm) {
+      postForm.addEventListener("submit", function(event) {
+          event.preventDefault();
+          const formData = new FormData(postForm);
 
-            // Example POST request using Fetch API
-            fetch('/api/posts', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
+          fetch('/api/posts', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => {
+              if (response.ok) {
                   return response.json();
-                } else {
-                  throw new Error('Network response was not ok.');
-                }
-              })
-              
-        });
-    }
+              } else {
+                  throw new Error('Failed to create post');
+              }
+          })
+          .then(data => {
+              console.log('Post created:', data);
+              window.location.href = './blogForm'; // Redirect to another page
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('Error creating post: ' + error.message);
+          });
+      });
+  }
 });

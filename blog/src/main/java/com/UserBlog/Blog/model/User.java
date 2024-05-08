@@ -1,20 +1,39 @@
 package com.UserBlog.Blog.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.NaturalId;
+
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"username"}),
+        @UniqueConstraint(columnNames = {"email"})
+})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String username;
+
+    @NaturalId
+    @NotBlank
+    @Size(max = 100)
+    @Email
     private String email;
+
+    @NotBlank
+    @Size(min = 6, max = 100)
     private String password;
 
-    // Relationship with Authority
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "user_authority",
@@ -23,9 +42,7 @@ public class User {
     )
     private Set<Authority> authorities;
 
-    // Constructors
-    public User() {
-    }
+    public User() {}
 
     public User(Long id, String username, String email, String password, Set<Authority> authorities) {
         this.id = id;
@@ -34,6 +51,7 @@ public class User {
         this.password = password;
         this.authorities = authorities;
     }
+
 
     // Getters and Setters
     public Long getId() {
@@ -74,16 +92,5 @@ public class User {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='[PROTECTED]'" +
-                ", authorities=" + authorities +
-                '}';
     }
 }

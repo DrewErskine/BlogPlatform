@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header('Login Page')">
+<head th:include="fragments/header :: header">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <main>
         <div class="form-container">
             <h2>Please Log In</h2>
-            <!-- Added id to the form for JavaScript targeting -->
-            <form id="login-form" th:action="@{/login}" method="post">
-                <!-- Added ids to inputs for JavaScript targeting -->
-                <input type="text" id="login-username" name="username" placeholder="Username" required>
-                <input type="password" id="login-password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
+            <form id="login-form" th:action="@{/login}" method="post" th:object="${loginForm}">
+                <div th:if="${loginError}" class="alert alert-danger">
+                    Invalid username or password.
+                </div>
+                <div class="form-group">
+                    <label for="login-username">Username:</label>
+                    <input type="text" id="login-username" name="username" placeholder="Username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="button">Login</button>
             </form>
         </div>
     </main>
-    <footer th:replace="fragments/footer :: footer"></footer>
-
     <script>
         document.getElementById('login-form').addEventListener('submit', function(event) {
             var username = document.getElementById('login-username').value;
             var password = document.getElementById('login-password').value;
-            // Check for empty fields after trimming whitespace
-            if(username.trim() === '' || password.trim() === '') {
+            if (username.trim() === '' || password.trim() === '') {
                 alert('Username and password are required!');
-                event.preventDefault();
+                event.preventDefault(); // Prevent form submission
             }
         });
     </script>

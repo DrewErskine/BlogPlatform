@@ -1,71 +1,55 @@
 package com.UserBlog.Blog.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.service.UserService;
-import com.UserBlog.Blog.service.LoginService;
+import com.UserBlog.Blog.model.User;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
-    private final LoginService loginService;
 
-    // Constructor injection for services
-    public UserController(UserService userService, LoginService loginService) {
+    // Constructor injection, Autowired is optional in single constructor scenarios
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.loginService = loginService;
     }
 
-    // Display login form
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    // Handle login data
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String username, @RequestParam String password, Model model) {
-        boolean isAuthenticated = loginService.authenticate(username, password);
-        if (isAuthenticated) {
-            return "redirect:/home"; 
+    // Display user profile
+    @GetMapping("/profile/{userId}")
+    public String userProfile(@PathVariable Long userId, Model model) {
+        Optional<User> userOptional = userService.findById(userId);
+        if (userOptional.isPresent()) {
+            model.addAttribute("user", userOptional.get());
+            return "user/profile";
         } else {
-            model.addAttribute("loginError", "Invalid username or password.");
-            return "login";
+            model.addAttribute("errorMessage", "User not found.");
+            return "error";  // Assuming there's an 'error.html' template to handle errors
         }
     }
 
-    // Display registration form
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
+    @GetMapping("/edit-profile")
+    public String editUserProfile(Model model) {
+        User user = userService.getCurrentUser();
+        model.addAttribute("user", user);
+        return "user/edit-profile";
     }
 
-    // Process registration
-    @PostMapping("/register")
-    public String processRegistration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "register";
+    // Process the form submission for editing user profile
+    @PostMapping("/edit-profile")
+    public String updateUserProfile(@ModelAttribute User userForm, Model model) {
+        try {
+            userService.updateUser(userForm);
+            model.addAttribute("successMessage", "Profile updated successfully!");
+            return "redirect:/api/user/profile/" + userForm.getId();  // Redirect to the updated profile
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error updating profile: " + e.getMessage());
+            return "user/edit-profile";  // Stay on the edit page if there's an error
         }
-        
-        if (userService.existsByUsername(user.getUsername()) || userService.existsByEmail(user.getEmail())) {
-            model.addAttribute("registrationError", "Username or email already exists.");
-            return "register";
-        }
-
-        userService.save(user);
-        return "redirect:/login";
     }
 }

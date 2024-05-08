@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header('Register Page')">
+<head>
+    <!-- Thymeleaf fragment for header which includes the title and can also include other meta tags and links -->
+    <th:block th:replace="fragments/header :: header ('_arg0'='Register Page')"></th:block>
+    <!-- Correct placement of the stylesheet link -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <main>
@@ -11,6 +15,5 @@
             <button type="submit">Register</button>
         </form>
     </main>
-    <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
