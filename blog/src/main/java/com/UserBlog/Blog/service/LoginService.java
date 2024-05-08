@@ -1,91 +1,38 @@
 package com.UserBlog.Blog.service;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
-import java.util.Map;
+import com.UserBlog.Blog.repository.UserRepository;
 
 @Service
 public class LoginService implements UserDetailsService {
 
-    private final Map<String, String> users = new HashMap<>();
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public LoginService(BCryptPasswordEncoder passwordEncoder) {
+    public LoginService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        users.put("Drew", passwordEncoder.encode("Luf"));
-        users.put("user2", passwordEncoder.encode("password2"));
-    }
-
-    public Map<String, String> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Map<String, String> users) {
-        this.users.clear();
-        this.users.putAll(users);
     }
 
     public boolean authenticate(String username, String password) {
-        if (users.containsKey(username)) {
-            String hashedPassword = users.get(username);
-            return passwordEncoder.matches(password, hashedPassword);
-        }
-        return false;
+        return userRepository.findByUsername(username)
+                .map(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElse(false);
     }
 
-    public boolean registerUser(String username, String password) {
-        if (!users.containsKey(username)) {
-            String hashedPassword = passwordEncoder.encode(password);
-            users.put(username, hashedPassword);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean changePassword(String username, String oldPassword, String newPassword) {
-        if (users.containsKey(username)) {
-            String hashedPassword = users.get(username);
-            if (passwordEncoder.matches(oldPassword, hashedPassword)) {
-                String newHashedPassword = passwordEncoder.encode(newPassword);
-                users.put(username, newHashedPassword);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    
-    public boolean resetPassword(String username) {
-        
-        if (users.containsKey(username)) {
-            
-            String newPassword = generateRandomPassword(); 
-            String newHashedPassword = passwordEncoder.encode(newPassword);
-            users.put(username, newHashedPassword);
-            return true;
-        }
-        return false; 
-    }
-
-   
-    private String generateRandomPassword() {
-        return "newPassword123";
-    }
-    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (!users.containsKey(username)) {
-            throw new UsernameNotFoundException("User not found: " + username);
-        }
-        String password = users.get(username);
-        return User.builder()
-            .username(username)
-            .password(password)
-            .roles("USER")
-            .build();
+        return userRepository.findByUsername(username)
+                .map(user -> User.builder()
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .authorities("ROLE_USER")
+                    .build())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }

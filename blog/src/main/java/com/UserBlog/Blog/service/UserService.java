@@ -1,16 +1,15 @@
 package com.UserBlog.Blog.service;
 
-import com.UserBlog.Blog.model.User;
-import com.UserBlog.Blog.repository.UserRepository;
-
-import jakarta.transaction.Transactional;
+import java.util.Collections;
+import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import com.UserBlog.Blog.model.User;
+import com.UserBlog.Blog.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -22,6 +21,38 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    @Transactional
+    public User save(User user) {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to save user", e);
+        }
+    }
+
+        /**
+     * Registers a new user if the username and email are not already taken.
+     * @param username the username for the new user
+     * @param password the user's password
+     * @param email the user's email
+     * @return true if registration is successful, false if username or email exists
+     */
+    @Transactional
+    public boolean registerUser(String username, String password, String email) {
+        if (!userRepository.existsByUsername(username) && !userRepository.existsByEmail(email)) {
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setEmail(email);
+            newUser.setPassword(passwordEncoder.encode(password));
+            newUser.setAuthorities(Collections.emptySet()); // Set appropriate authorities if needed
+            userRepository.save(newUser);
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * Checks if a username exists in the database.
@@ -39,22 +70,6 @@ public class UserService {
      */
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
-    }
-
-    /**
-     * Saves a user to the database with an encoded password.
-     * @param user the user to save
-     * @return the saved user
-     */
-    @Transactional
-    public User save(User user) {
-        try {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            return userRepository.save(user);
-        } catch (Exception e) {
-            // Log and/or handle the exception appropriately
-            throw new RuntimeException("Failed to save user", e);
-        }
     }
 
     public Optional<User> findById(Long id) {

@@ -5,7 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.UserBlog.Blog.service.LoginService;
 
 @Controller
@@ -22,14 +23,20 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/loginModelView")
+    public ModelAndView showLoginFormView(Model model) {
+        ModelAndView modelAndView = new ModelAndView("login");
+        return modelAndView;
+    }
+
     @PostMapping("/login")
-    public String processLogin(@RequestParam String username, @RequestParam String password, Model model) {
+    public String processLogin(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
         boolean isAuthenticated = loginService.authenticate(username, password);
         if (isAuthenticated) {
-            return "redirect:/blogHome"; 
+            return "redirect:/blogHome";
         } else {
-            model.addAttribute("loginError", "Invalid username or password.");
-            return "loginNow";
+            redirectAttributes.addFlashAttribute("loginError", "Invalid username or password.");
+            return "redirect:/login";
         }
     }
 }

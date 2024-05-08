@@ -15,34 +15,34 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/perform_logout")
-                .logoutSuccessUrl("/") 
-                .deleteCookies("JSESSIONID") 
-                .invalidateHttpSession(true)  
-                .permitAll()
-            );
-        return http.build();
-    }
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                                .sessionManagement(sessionManagement -> sessionManagement
+                                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**",
+                                                                "/login", "/error", "/home", "/register",
+                                                                "/loginModelView")
+                                                .permitAll()
+                                                .anyRequest().authenticated())
+                                .formLogin(formLogin -> formLogin
+                                                .loginPage("/login")
+                                                .defaultSuccessUrl("/dashboard", true)
+                                                .failureUrl("/login?error=true")
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/perform_logout")
+                                                .logoutSuccessUrl("/")
+                                                .deleteCookies("JSESSIONID")
+                                                .invalidateHttpSession(true)
+                                                .permitAll());
+                return http.build();
+        }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 }

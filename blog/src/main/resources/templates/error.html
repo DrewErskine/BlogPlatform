@@ -2,9 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" 
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
-<head th:replace="~{fragments/header :: header('Error')}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - Welcome to My Blog"></title>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+
     <main>
         <h1 th:text="${status} + ' - ' + ${error}">404 - Page not found</h1>
         <p th:text="${message}">We're sorry, the page you were looking for isn't found here.</p>

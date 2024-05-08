@@ -33,7 +33,7 @@ public class PostService {
     }
 
     public List<Post> findAllPostsOrderByCreatedAtDesc() {
-        return postRepository.findAllPostsOrderByCreatedAtDesc(); // Define this method
+        return postRepository.findAllPostsOrderByCreatedAtDesc();
     }
 
     public List<Post> findAllPosts() {

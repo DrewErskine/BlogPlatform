@@ -1,65 +1,67 @@
 package com.UserBlog.Blog.service;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.repository.UserRepository;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Optional;
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest(classes = UserService.class)
 public class UserServiceTests {
 
-    @Mock
-    private UserRepository userRepository;
-
-    @InjectMocks
+    @Autowired
     private UserService userService;
 
-    @Test
-    public void testUpdateUser() {
-        // Create a user
-        User user = new User();
-        user.setId(1L);
-        user.setEmail("user@example.com");
-        user.setPassword("password123");
+    @MockBean
+    private UserRepository userRepository;
 
-        // Mock userRepository's save method to return the user
-        when(userRepository.save(any(User.class))).thenReturn(user);
+    @MockBean
+    private BCryptPasswordEncoder passwordEncoder;
 
-        // Call the updateUser method of userService
-        userService.updateUser(user);
-
-        // Verify that userRepository's save method was called with the user
-        verify(userRepository).save(user);
-
-        // Assert that the user's id remains unchanged after calling updateUser
-        assertThat(user.getId()).isEqualTo(1L);
+    @BeforeEach
+    public void setup() {
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
     }
 
     @Test
-    public void testFindUserByUsername() {
-        // Create a user
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("testuser");
+    public void testRegisterUserWithNewUsername() {
+        when(userRepository.existsByUsername("newUser")).thenReturn(false);
+        when(userRepository.existsByEmail("newUser@example.com")).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Mock userRepository's findByUsername method to return the user
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        assertTrue(userService.registerUser("newUser", "newPassword", "newUser@example.com"));
+        verify(userRepository).save(any(User.class)); // Verify that save is called
+    }
 
-        // Call the findUserByUsername method of userService
-        Optional<User> foundUserOptional = userService.findByUsername("testuser");
+    @Test
+    public void testRegisterUserWithExistingUsername() {
+        when(userRepository.existsByUsername("existingUser")).thenReturn(true);
 
-        // Assert that the user returned by the service is the same as the one we created
-        assertThat(foundUserOptional).isPresent();
-        assertThat(foundUserOptional.get().getUsername()).isEqualTo("testuser");
+        assertFalse(userService.registerUser("existingUser", "newPassword", "existingUser@example.com"));
+        verify(userRepository, never()).save(any(User.class)); // Ensure save is not called
+    }
+
+    @Test
+    public void testRegisterUserWithExistingEmail() {
+        when(userRepository.existsByEmail("existing@example.com")).thenReturn(true);
+
+        assertFalse(userService.registerUser("newUser", "newPassword", "existing@example.com"));
+        verify(userRepository, never()).save(any(User.class)); // Ensure save is not called
+    }
+
+    @Test
+    public void testErrorHandlingWhenSavingUser() {
+        when(userRepository.existsByUsername("newUser")).thenReturn(false);
+        when(userRepository.existsByEmail("newUser@example.com")).thenReturn(false);
+        doThrow(RuntimeException.class).when(userRepository).save(any(User.class));
+
+        assertThrows(RuntimeException.class, () -> userService.registerUser("newUser", "newPassword", "newUser@example.com"));
     }
 }

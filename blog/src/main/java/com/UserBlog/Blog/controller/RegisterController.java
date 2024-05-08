@@ -1,39 +1,34 @@
 package com.UserBlog.Blog.controller;
 
-import com.UserBlog.Blog.model.User;
-import com.UserBlog.Blog.service.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.UserBlog.Blog.service.UserService;
 
 @Controller
 public class RegisterController {
 
-    private final LoginService loginService;
+    private final UserService userService;
 
-    // Constructor injection for the LoginService
-    public RegisterController(LoginService loginService) {
-        this.loginService = loginService;
+    public RegisterController(UserService userService) {
+        this.userService = userService;
     }
 
-    // Mapping to display the registration form
     @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
+    public String showRegistrationForm() {
         return "register";
     }
 
-    // Mapping to handle form submission and process registration
     @PostMapping("/register")
-    public String processRegistration(@ModelAttribute("user") User user) {
-        // Call the service method to register the user
-        boolean registrationSuccess = loginService.registerUser(user.getUsername(), user.getPassword());
-
-        // Redirect to appropriate page based on registration success
+    public String processRegistration(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
+        boolean registrationSuccess = userService.registerUser(username, password, email);
         if (registrationSuccess) {
-            return "redirect:/login"; 
+            return "redirect:/login";  // Redirect after successful registration
         } else {
-            return "redirect:/register?error";
+            model.addAttribute("registrationError", "Username or email already exists.");
+            return "register";  // Stay on the registration page if not successful
         }
     }
 }

@@ -1,3 +1,7 @@
+function getCsrfToken() {
+    return document.querySelector('meta[name="_csrf"]').content;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
@@ -15,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch('/login', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrfToken()
                     },
                     body: JSON.stringify({username: username, password: password})
                 })
@@ -54,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch('/register', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrfToken()
                     },
                     body: JSON.stringify({username: username, password: password, email: email})
                 })
@@ -67,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(data => {
                     console.log('Registration successful:', data);
-                    // Handle successful registration, e.g., show a success message
                 })
                 .catch(error => {
                     console.error('Error:', error);
