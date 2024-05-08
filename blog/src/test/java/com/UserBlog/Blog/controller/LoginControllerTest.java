@@ -38,6 +38,6 @@ public class LoginControllerTest {
                 .param("username", "user")
                 .param("password", "pass"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/home"));
+                .andExpect(view().name("redirect:/blogHome"));
     }
 }

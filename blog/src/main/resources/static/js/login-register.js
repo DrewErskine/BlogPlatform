@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (registerForm) {
         registerForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the form from submitting normally
-            const username = document.getElementById('reg-username').value;
-            const password = document.getElementById('reg-password').value;
-            const email = document.getElementById('reg-email').value;
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const email = document.getElementById('register-email').value;
             if (username && password && email) {
                 console.log('Registration attempt with:', username, email);
                 

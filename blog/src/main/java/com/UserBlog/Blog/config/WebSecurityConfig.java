@@ -19,20 +19,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .invalidSessionUrl("/login?invalid")
-                .maximumSessions(1)
-                .expiredUrl("/login?expired"))
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/", "/rss/**", "/register/**", "/posts/**", "/login", "/error", "/home").permitAll()
+                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/")
-                .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .loginPage("/login")
                 .defaultSuccessUrl("/dashboard", true)
                 .failureUrl("/login?error=true")
                 .permitAll()

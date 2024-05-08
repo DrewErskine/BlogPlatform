@@ -10,4 +10,9 @@ public class BlogController {
     public String showBlogForm() {
         return "blogForm";
     }
+
+    @GetMapping("/blogHome")
+    public String blogHome() {
+        return "blogHome";
+    }
 }
