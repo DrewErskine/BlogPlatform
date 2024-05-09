@@ -3,6 +3,7 @@ package com.UserBlog.Blog.service;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class UserService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Failed to save user: Data integrity violation", e);
         } catch (Exception e) {
             throw new RuntimeException("Failed to save user", e);
         }
@@ -41,6 +44,14 @@ public class UserService {
      */
     @Transactional
     public boolean registerUser(String username, String password, String email) {
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Username already exists: " + username);
+        }
+
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already exists: " + email);
+        }
+
         if (!userRepository.existsByUsername(username) && !userRepository.existsByEmail(email)) {
             User newUser = new User();
             newUser.setUsername(username);
@@ -76,13 +87,13 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-        public User getCurrentUser() {
+    public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String username = ((UserDetails)principal).getUsername();
             return findByUsername(username).orElse(null);
         }
-        return null; // Or handle appropriately
+        return null;
     }
 
     /**
@@ -112,8 +123,9 @@ public class UserService {
     public User updateUser(User user) {
         try {
             return userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Failed to update user: Data integrity violation", e);
         } catch (Exception e) {
-            // Log and/or handle the exception appropriately
             throw new RuntimeException("Failed to update user", e);
         }
     }

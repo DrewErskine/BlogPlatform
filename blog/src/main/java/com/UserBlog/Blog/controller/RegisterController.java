@@ -23,11 +23,14 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String processRegistration(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
-        boolean registrationSuccess = userService.registerUser(username, password, email);
-        if (registrationSuccess) {
-            return "redirect:/login";  // Redirect after successful registration
-        } else {
-            model.addAttribute("registrationError", "Username or email already exists.");
+        try {
+            userService.registerUser(username, password, email);
+            return "redirect:/blogHome";  // Redirect after successful registration
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("registrationError", e.getMessage());
+            return "register";  // Stay on the registration page if not successful
+        } catch (Exception e) {
+            model.addAttribute("registrationError", "An error occurred during registration.");
             return "register";  // Stay on the registration page if not successful
         }
     }

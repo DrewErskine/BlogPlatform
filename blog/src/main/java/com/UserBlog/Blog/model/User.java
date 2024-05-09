@@ -10,12 +10,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"username"}),
-        @UniqueConstraint(columnNames = {"email"})
+@Table(name = "users", schema = "blog", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"username"}),
+    @UniqueConstraint(columnNames = {"email"})
 })
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
