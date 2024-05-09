@@ -10,6 +10,7 @@ import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.repository.UserRepository;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,18 +44,29 @@ public class UserServiceTests {
     @Test
     public void testRegisterUserWithExistingUsername() {
         when(userRepository.existsByUsername("existingUser")).thenReturn(true);
-
-        assertFalse(userService.registerUser("existingUser", "newPassword", "existingUser@example.com"));
-        verify(userRepository, never()).save(any(User.class)); // Ensure save is not called
+    
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerUser("existingUser", "newPassword", "existingUser@example.com");
+        });
+    
+        assertTrue(exception.getMessage().contains("Username already exists"));
+        verify(userRepository, never()).save(any(User.class));
     }
+    
 
     @Test
     public void testRegisterUserWithExistingEmail() {
         when(userRepository.existsByEmail("existing@example.com")).thenReturn(true);
-
-        assertFalse(userService.registerUser("newUser", "newPassword", "existing@example.com"));
-        verify(userRepository, never()).save(any(User.class)); // Ensure save is not called
+    
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerUser("newUser", "newPassword", "existing@example.com");
+        });
+    
+        assertTrue(exception.getMessage().contains("Email already exists"));
+        verify(userRepository, never()).save(any(User.class));
     }
+    
+
 
     @Test
     public void testErrorHandlingWhenSavingUser() {
