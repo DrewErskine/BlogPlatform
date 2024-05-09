@@ -1,38 +1,61 @@
-/* src/main/resources/static/css/header.css */
-nav {
-    background-color: #f8f9fa;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Header CSS */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #333;
+    color: #fff;
 }
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.left-nav ul, .right-nav ul {
+    list-style: none;
+    display: flex;
     padding: 0;
-    overflow: hidden;
+    margin: 0;
 }
 
-nav ul li {
-    float: left;
-    display: block;
+.left-nav li, .right-nav li {
+    margin-left: 20px;
 }
 
-nav ul li a {
-    display: block;
-    color: #333;
-    text-align: center;
-    padding: 14px 16px;
+.left-nav li:first-child, .right-nav li:first-child {
+    margin-left: 0;
+}
+
+nav a {
+    color: #fff;
     text-decoration: none;
-    transition: background-color 0.3s;
+    transition: color 0.3s ease;
 }
 
-nav ul li a:hover {
-    background-color: #ddd;
+nav a:hover {
+    color: #4CAF50;
 }
 
-h1 {
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    text-align: center;
-    padding: 20px 0;
+.blog-title a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.blog-title {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.account-button a {
+    padding: 5px 15px;
+    background: #4CAF50;
+    border-radius: 5px;
+}
+
+.account-button a:hover {
+    background: #367c39;
 }

@@ -1,22 +1,19 @@
-<!-- src/main/resources/templates/fragments/header.html -->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" th:href="@{/css/header.css}" />
-</head>
-<body>
+<!-- Header Fragment with Divided Navigation -->
 <div th:fragment="header">
-    <nav>
-        <ul>
-            <li><a th:href="@{/logout}" th:if="${session != null}">Logout</a></li>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/blogForm}">Create Post</a></li>
-        </ul>
-    </nav>
-    <h1>Welcome to Your Blog</h1>
-    <div th:if="${#authentication.principal != null}">
-        <span>Logged in: <span th:text="${#authentication.principal.username}">Username</span></span>
+    <div class="header-container">
+        <h1 class="blog-title"><a th:href="@{/}">PeepPea Plog</a></h1>
+        <div class="nav-container">
+            <nav class="left-nav">
+                <ul>
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/blogForm}">Create Post</a></li>
+                </ul>
+            </nav>
+            <nav class="right-nav">
+                <ul>
+                    <li class="account-button"><a th:href="@{/account}">Account</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
-</body>
-</html>
