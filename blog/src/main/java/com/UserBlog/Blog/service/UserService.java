@@ -57,7 +57,7 @@ public class UserService {
             newUser.setUsername(username);
             newUser.setEmail(email);
             newUser.setPassword(passwordEncoder.encode(password));
-            newUser.setAuthorities(Collections.emptySet()); // Set appropriate authorities if needed
+            newUser.setAuthorities(Collections.emptySet()); 
             userRepository.save(newUser);
             return true;
         }

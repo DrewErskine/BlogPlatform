@@ -1,11 +1,15 @@
 package com.UserBlog.Blog.service;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
+
+import com.UserBlog.Blog.model.Authority;
 import com.UserBlog.Blog.repository.UserRepository;
 
 @Service
@@ -31,7 +35,10 @@ public class LoginService implements UserDetailsService {
                 .map(user -> User.builder()
                     .username(user.getUsername())
                     .password(user.getPassword())
-                    .authorities("ROLE_USER")
+                    .authorities(user.getAuthorities().stream()
+                                .map(Authority::getName)
+                                .map(SimpleGrantedAuthority::new)
+                                .collect(Collectors.toList()))
                     .build())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }

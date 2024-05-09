@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor // This annotation will generate a constructor with all class fields as parameters
+@AllArgsConstructor
 @ToString
 public class Authority {
     @Id
