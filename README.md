@@ -136,6 +136,3 @@ This Blog Platform is a robust application built on Spring Boot, designed to off
     - **Session Management**: Adopts a policy to create sessions as required.
     - **Authorization**: Ensures static resources and specific pages like login and registration are publicly accessible, while all other requests require authentication.
     - **Form Login and Logout**: Configures paths for form login and logout, handles successful and unsuccessful authentication attempts, manages cookies, and session invalidation.
-
-
-### resources

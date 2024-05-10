@@ -1,0 +1,75 @@
+:root {
+    --background-light: #f9f9f9;  /* Very light grey, good for backgrounds */
+    --primary-text: #333;         /* Dark grey for primary text */
+    --secondary-text: #555;       /* Medium grey for secondary text */
+    --detail-text: #666;          /* Light grey for details */
+    --primary-border: #ccc;       /* Light grey border */
+    --button-active: #4CAF50;     /* Green for buttons */
+    --button-hover: #367c39;      /* Dark green for button hover states */
+    --input-focus: #66afe9;       /* Light blue for input focus */
+}
+
+/* Welcome Post Styling */
+.welcome-post-container {
+    background-color: var(--background-light);
+    border: 1px solid var(--primary-border);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.welcome-post-container h2 {
+    color: var(--primary-text);
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.welcome-post-container .post h3 {
+    color: var(--secondary-text);
+    font-size: 20px;
+}
+
+.welcome-post-container .post p {
+    font-size: 16px;
+    color: var(--detail-text);
+    line-height: 1.6;
+}
+
+.welcome-post-container .btn-primary {
+    background-color: var(--button-active);
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.welcome-post-container .btn-primary:hover {
+    background-color: var(--button-hover);
+}
+
+/* Latest Post Styling */
+.latest-post-container {
+    border: 1px solid var(--primary-border);
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: var(--background-light);
+}
+
+.latest-post-container .post h3,
+.post h3 {
+    color: var(--primary-text);
+    font-size: 24px;
+}
+
+.latest-post-container .post p,
+.post p {
+    color: var(--detail-text);
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: var(--button-active);
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+}

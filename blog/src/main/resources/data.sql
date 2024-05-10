@@ -9,9 +9,3 @@ INSERT INTO authorities (name) VALUES
 ('ADMIN'),
 ('USER')
 ON DUPLICATE KEY UPDATE name = VALUES(name);
-
-
-INSERT INTO post (title, content, created_at, author_id) VALUES
-('First Post', 'This is the content of the first post.', NOW(), 33),
-('Second Post', 'This is the content of the second post.', NOW(), 33)
-ON DUPLICATE KEY UPDATE title = VALUES(title), content = VALUES(content);

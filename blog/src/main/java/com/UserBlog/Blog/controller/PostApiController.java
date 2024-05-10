@@ -11,10 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
-public class PostController {
+public class PostApiController {
     private PostService postService;
 
-    public PostController(PostService postService) {
+    public PostApiController(PostService postService) {
         this.postService = postService;
     }
 
@@ -35,7 +35,6 @@ public class PostController {
         Post savedPost = postService.savePost(post);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPost);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${post.title} + ' - Blog Post'">Post Title - Blog Post</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+
+    <main>
+        <article>
+            <h1 th:text="${post.title}">Post Title</h1>
+            <p th:text="${post.content}">Post content here...</p>
+            <p>Posted by <span th:text="${post.author.username}">Author</span> on <span th:text="${#dates.format(post.createdAt, 'dd MMM yyyy')}">Date</span></p>
+        </article>
+        <div th:if="${post.author.username == #authentication.name}">
+            <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="edit">Edit Post</a>
+            <a th:href="@{/posts/delete/{id}(id=${post.id})}" class="delete">Delete Post</a>
+        </div>
+    </main>
+
+    <script src="/js/post-functions.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!-- Latest Post Fragment with Post Details -->
+<div th:fragment="welcomePost">
+    <div class="welcome-post-container">
+        <h2>Welcome to Our Blog!</h2>
+        <div th:if="${welcomePost}" class="post">
+            <h3 th:text="${welcomePost.title}">Post Title</h3>
+            <p th:text="${welcomePost.content}">Post content will appear here if not loaded...</p>
+            <p>Posted on <span th:text="${#temporals.format(welcomePost.createdAt, 'dd MMMM yyyy')}"></span> by <span th:text="${welcomePost.author}">Author</span></p>
+            <a th:href="@{/post/view(id=${welcomePost.id})}" class="btn btn-primary">Read More</a>
+        </div>
+        <div th:unless="${welcomePost}">
+            <p>No posts available. Check back soon!</p>
+        </div>
+    </div>
+</div>

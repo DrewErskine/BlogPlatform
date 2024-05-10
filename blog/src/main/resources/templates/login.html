@@ -12,6 +12,11 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/login.css}"> <!-- Login specific styles -->
+
+    <!-- Favicon -->
+    <link rel="icon" href="/path/to/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header th:replace="~{fragments/header :: header}"></header>

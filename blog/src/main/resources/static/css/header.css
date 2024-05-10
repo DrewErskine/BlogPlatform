@@ -1,11 +1,18 @@
-/* Header CSS */
+/* Base styles for header with CSS variables for theming */
+:root {
+    --header-bg-color: #333;
+    --header-text-color: #fff;
+    --link-hover-color: #4CAF50;
+    --link-active-bg-color: #367c39;
+}
+
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: #333;
-    color: #fff;
+    background: var(--header-bg-color);
+    color: var(--header-text-color);
 }
 
 .nav-container {
@@ -14,48 +21,77 @@
     width: 100%;
 }
 
-.left-nav ul, .right-nav ul {
+/* Navigation styling with focus on reset styles for list */
+.nav-list {
     list-style: none;
     display: flex;
     padding: 0;
     margin: 0;
 }
 
-.left-nav li, .right-nav li {
+.nav-item {
     margin-left: 20px;
 }
 
-.left-nav li:first-child, .right-nav li:first-child {
+.nav-item:first-child {
     margin-left: 0;
 }
 
-nav a {
-    color: #fff;
+/* Link styling with improved accessibility for focus */
+.nav-link {
+    color: var(--header-text-color);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-nav a:hover {
-    color: #4CAF50;
+.nav-link:focus, .nav-link:hover {
+    color: var(--link-hover-color);
+    outline: none; /* Accessibility: consider keeping some outline for focus */
 }
 
-.blog-title a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 24px;
-}
-
+/* Styling for blog title in the header */
 .blog-title {
     margin: 0;
     font-size: 1.5em;
 }
 
-.account-button a {
-    padding: 5px 15px;
-    background: #4CAF50;
-    border-radius: 5px;
+.blog-title-link {
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-size: 24px;
 }
 
-.account-button a:hover {
-    background: #367c39;
+/* Button specific styles with hover effect */
+.account-button-link {
+    padding: 5px 15px;
+    background: var(--link-hover-color);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.account-button-link:hover {
+    background: var(--link-active-bg-color);
+}
+
+/* Responsive adjustments for better mobile viewing */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-item {
+        margin-bottom: 10px;
+    }
 }
