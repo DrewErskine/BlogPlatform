@@ -29,7 +29,7 @@ public class UserController {
             return "user/profile";
         } else {
             model.addAttribute("errorMessage", "User not found.");
-            return "error";  // Assuming there's an 'error.html' template to handle errors
+            return "error";
         }
     }
 
@@ -46,10 +46,10 @@ public class UserController {
         try {
             userService.updateUser(userForm);
             model.addAttribute("successMessage", "Profile updated successfully!");
-            return "redirect:/api/user/profile/" + userForm.getId();  // Redirect to the updated profile
+            return "redirect:/api/user/profile/" + userForm.getId();  
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error updating profile: " + e.getMessage());
-            return "user/edit-profile";  // Stay on the edit page if there's an error
+            return "user/edit-profile";  
         }
     }
 }

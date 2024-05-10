@@ -1,9 +1,8 @@
 <div th:fragment="login-form">
     <div class="form-container">
         <h2>Please Log In</h2>
-        <form id="login-form" th:action="@{/login}" method="post">
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-
+        <form action="#" th:action="@{/login}" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
             
             <div th:if="${loginError}" class="alert alert-danger">
                 Invalid username or password.

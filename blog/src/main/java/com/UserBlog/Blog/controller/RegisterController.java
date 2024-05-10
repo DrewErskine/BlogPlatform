@@ -25,13 +25,13 @@ public class RegisterController {
     public String processRegistration(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
         try {
             userService.registerUser(username, password, email);
-            return "redirect:/blogHome";  // Redirect after successful registration
+            return "redirect:/blogHome";
         } catch (IllegalArgumentException e) {
             model.addAttribute("registrationError", e.getMessage());
-            return "register";  // Stay on the registration page if not successful
+            return "register"; 
         } catch (Exception e) {
             model.addAttribute("registrationError", "An error occurred during registration.");
-            return "register";  // Stay on the registration page if not successful
+            return "register"; 
         }
     }
 }

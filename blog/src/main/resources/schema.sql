@@ -7,20 +7,20 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Schema for `roles`
-CREATE TABLE IF NOT EXISTS roles (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  role_name VARCHAR(255) NOT NULL UNIQUE
+-- Ensure the table name here is "authorities"
+CREATE TABLE IF NOT EXISTS authorities (
+  name VARCHAR(16) NOT NULL PRIMARY KEY
 );
 
--- Schema for `user_roles`
-CREATE TABLE IF NOT EXISTS user_roles (
+
+CREATE TABLE IF NOT EXISTS user_authority (
   user_id INT NOT NULL,
-  role_id INT NOT NULL,
-  PRIMARY KEY (user_id, role_id),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-  FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+  authority_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (user_id, authority_name),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (authority_name) REFERENCES authorities(name) ON DELETE CASCADE
 );
+
 
 -- Schema for `post`
 CREATE TABLE IF NOT EXISTS post (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS post (
   content TEXT,
   author_id INT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
+  FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Schema for `comments`
@@ -39,6 +39,6 @@ CREATE TABLE IF NOT EXISTS comments (
   user_id INT NOT NULL,
   comment TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+  FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

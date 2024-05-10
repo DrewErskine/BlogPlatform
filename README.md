@@ -138,4 +138,4 @@ This Blog Platform is a robust application built on Spring Boot, designed to off
     - **Form Login and Logout**: Configures paths for form login and logout, handles successful and unsuccessful authentication attempts, manages cookies, and session invalidation.
 
 
-### HTML
+### resources

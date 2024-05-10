@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for login form submission
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+            event.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             if (username && password) {
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': getCsrfToken()
+                        [csrfHeader]: getCsrfToken()
                     },
                     body: JSON.stringify({username: username, password: password})
                 })
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(data => {
                     console.log('Login successful:', data);
-                    // Redirect to another page or handle the logged-in state
+                    window.location.href = '/dashboard';
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(data => {
                     console.log('Registration successful:', data);
+                    window.location.href = '/login';
                 })
                 .catch(error => {
                     console.error('Error:', error);

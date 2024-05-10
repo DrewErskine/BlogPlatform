@@ -9,9 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +23,10 @@ public class WebSecurityConfig{
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DataSource dataSource; // Ensure dataSource is autowired
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,5 +60,11 @@ public class WebSecurityConfig{
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+
+        auth
+            .jdbcAuthentication()
+            .dataSource(dataSource)
+            .usersByUsernameQuery("select username, password, 'true' as enabled from users where username=?")
+            .authoritiesByUsernameQuery("select username, authority_name from user_authority where username=?");
     }
 }
