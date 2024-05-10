@@ -64,4 +64,9 @@ public class PostService {
     public List<Post> findAllPostsSortedByDate() {
         return postRepository.findAllPostsOrderByCreatedAtDesc();
     }
+
+    public Post findLatestPost() {
+        List<Post> posts = postRepository.findAllPostsOrderByCreatedAtDesc();
+        return posts.isEmpty() ? null : posts.get(0);
+    }
 }
