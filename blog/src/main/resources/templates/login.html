@@ -21,11 +21,14 @@
 <body>
     <header th:replace="~{fragments/header :: header}"></header>
     
-    <main>
+    <main style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
         <div th:replace="~{fragments/login-form :: login-form}"></div>
-        <div th:replace="~{fragments/register-form :: register-form}"></div>
+        <div class="form-wrapper">
+            <div th:replace="~{fragments/register-form :: register-form}"></div>
+        </div>
     </main>
     
     <script src="/js/login-register.js"></script>
 </body>
+
 </html>

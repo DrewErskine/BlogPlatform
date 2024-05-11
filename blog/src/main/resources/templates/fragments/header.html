@@ -1,17 +1,17 @@
 <!-- Header Fragment with Divided Navigation -->
 <div th:fragment="header">
     <div class="header-container">
-        <h1 class="blog-title"><a th:href="@{/login}">PeepPea Plog</a></h1>
+        <h1 class="blog-title"><a href="@{/login}" class="blog-title-link">PeepPea Plog</a></h1>
         <div class="nav-container">
             <nav class="left-nav">
-                <ul>
-                    <li><a th:href="@{/dashboard}">Home</a></li>
-                    <li><a th:href="@{/blogForm}">Create Post</a></li>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="@{/dashboard}" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="@{/blogForm}" class="nav-link">Create Post</a></li>
                 </ul>
             </nav>
             <nav class="right-nav">
-                <ul>
-                    <li class="account-button"><a th:href="@{/account}">Account</a></li>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="@{/account}" class="nav-link">Account</a></li>
                 </ul>
             </nav>
         </div>

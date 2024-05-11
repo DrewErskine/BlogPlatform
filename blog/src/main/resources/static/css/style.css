@@ -71,6 +71,35 @@ a:hover {
 .mt-20 { margin-top: 20px; }
 .mb-20 { margin-bottom: 20px; }
 
+.form-wrapper {
+    width: 50%; /* Set the width of the form wrapper */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the forms vertically */
+    justify-content: center; /* Center the forms horizontally */
+    margin: auto; /* Ensure it is centered horizontally on the page */
+    padding: 20px; /* Optional: Adds some space inside the wrapper */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for better focus */
+}
+
+.form-wrapperThin {
+    width: 85%; /* Set the width of the form wrapper */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the forms vertically */
+    justify-content: center; /* Center the forms horizontally */
+    margin: auto; /* Ensure it is centered horizontally on the page */
+    padding: 20px; /* Optional: Adds some space inside the wrapper */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for better focus */
+}
+
+@media (max-width: 768px) {
+    .form-wrapper {
+        width: 90%; /* Responsive width on smaller screens */
+    }
+}
+
+
 /* Responsive design adjustments */
 @media (max-width: 768px) {
     .form-container, .post-card {

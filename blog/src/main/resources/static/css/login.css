@@ -39,3 +39,23 @@
 .submit-button:hover {
     background-color: #0056b3;
 }
+
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-group .col-form-label {
+    margin-right: 0.5rem;
+}
+
+.form-group .form-control {
+    flex: 3;
+}
+
+.error-message {
+    color: red;
+    margin-top: 0.5rem;
+}
