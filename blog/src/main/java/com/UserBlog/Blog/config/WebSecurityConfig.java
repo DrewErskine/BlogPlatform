@@ -35,8 +35,9 @@ public class WebSecurityConfig{
             .sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home", "/register", "/loginModelView")
+                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home", "/register")
                 .permitAll()
+                .requestMatchers("/dashboard", "/post/**").authenticated()
                 .anyRequest().authenticated())
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
@@ -59,12 +60,13 @@ public class WebSecurityConfig{
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-
         auth
-            .jdbcAuthentication()
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder);
+
+        auth.jdbcAuthentication()
             .dataSource(dataSource)
-            .usersByUsernameQuery("select username, password, 'true' as enabled from users where username=?")
-            .authoritiesByUsernameQuery("select username, authority_name from user_authority where username=?");
+            .usersByUsernameQuery("select username, password, enabled from users where username=?")
+            .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
     }
 }

@@ -2,10 +2,8 @@ package com.UserBlog.Blog.service;
 
 import com.UserBlog.Blog.model.Post;
 import com.UserBlog.Blog.repository.PostRepository;
-
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,59 +12,77 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-        private LocalDateTime createdAt;
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
-    public List<Post> findByTitleContainingIgnoreCase(String title) {
+    /**
+     * Saves a given post.
+     * @param post the post to save
+     * @return the saved post
+     */
+    public Post savePost(Post post) {
+        return postRepository.save(post);
+    }
+
+    /**
+     * Deletes a post by its ID.
+     * @param id the ID of the post to delete
+     */
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    /**
+     * Finds a post by its ID.
+     * @param id the ID of the post
+     * @return an Optional containing the found post or empty if not found
+     */
+    public Optional<Post> findPostById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    /**
+     * Finds posts by title, ignoring case.
+     * @param title the title to search for
+     * @return a list of posts matching the title
+     */
+    public List<Post> findPostsByTitle(String title) {
         return postRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    /**
+     * Finds the most recent post.
+     * @return the latest post or null if no posts exist
+     */
+    public Post findLatestPost() {
+        List<Post> posts = postRepository.findAllPostsOrderByCreatedAtDesc();
+        return posts.isEmpty() ? null : posts.get(0);
+    }
+
+    /**
+     * Retrieves all posts.
+     * @return a list of all posts
+     */
+    public List<Post> findAllPosts() {
+        return postRepository.findAll();
+    }
+
+
+    /**
+     * Retrieves all posts, ordered by creation date descending.
+     * @return a list of all posts
+     */
+    public List<Post> findAllPostsSortedByDate() {
+        return postRepository.findAllPostsOrderByCreatedAtDesc();
     }
 
     public List<Post> findAllPostsOrderByCreatedAtDesc() {
         return postRepository.findAllPostsOrderByCreatedAtDesc();
     }
 
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
-    }
-
-    public Optional<Post> findPostById(Long id) {
-        return postRepository.findById(id);
-    }
-
-    public Post savePost(Post post) {
-        return postRepository.save(post);
-    }
-
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
-    }
-
-    public List<Post> findPostsByTitle(String title) {
+    public List<Post> findByTitleContainingIgnoreCase(String title) {
         return postRepository.findByTitleContainingIgnoreCase(title);
-    }
-
-    public List<Post> findPostsByContent(String keyword) {
-        return postRepository.findByContentContaining(keyword);
-    }
-
-
-    public List<Post> findAllPostsSortedByDate() {
-        return postRepository.findAllPostsOrderByCreatedAtDesc();
-    }
-
-    public Post findLatestPost() {
-        List<Post> posts = postRepository.findAllPostsOrderByCreatedAtDesc();
-        return posts.isEmpty() ? null : posts.get(0);
     }
 }

@@ -1,0 +1,14 @@
+<!-- Post by id Fragment with Post Details -->
+<div th:fragment="postPost">
+    <div class="post-container">
+        <h2>Peep Pea Pesific Plog Post Page</h2>
+        <div th:if="${postPost}" class="post">
+            <h3 th:text="${posts.title}">Post Title</h3>
+            <p th:text="${postPost.content}">Post content...</p>
+            <p>Posted on <span th:text="${#temporals.format(postPost.createdAt, 'dd MMMM yyyy')}"></span> by <span th:text="${postPost.author.username}">Author</span></span> </p>
+        </div>
+        <div th:unless="${postPost}">
+            <p>No posts available. Check back soon!</p>
+        </div>
+    </div>
+</div>

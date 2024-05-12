@@ -13,15 +13,16 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/form.css}">
-    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/buttons.css}">
 </head>
 
 <body>
     <header th:replace="~{fragments/header :: header}"></header>
-    <main style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
 
-        <div th:replace="~{fragments/post-id :: post-id}"></div>
-
+    <main>
+    <div class="form-wrapper">
+        <div th:replace="~{fragments/postPost :: postPost}"></div>
+    </div>
     </main>
 </body>
 </html>
