@@ -12,7 +12,7 @@
     padding-bottom: 10px;
 }
 
-.post-preview {
+.dashboard-post-preview {
     background: white;
     border: 1px solid #ddd;
     padding: 15px;
@@ -20,22 +20,22 @@
     border-radius: 8px;
 }
 
-.post-preview:hover {
+.dashboard-post-preview:hover {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.post-title {
+.dashboard-post-title {
     color: #2a6496;
     font-size: 20px;
 }
 
-.post-content {
+.dashboard-post-content {
     color: #666;
     line-height: 1.6;
 }
 
 /* Enhance the button styles */
-.button-primary {
+.dashboard-button-primary {
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -49,11 +49,11 @@
     border-radius: 4px;
 }
 
-.button-primary:hover {
+.dashboard-button-primary:hover {
     background-color: #45a049;
 }
 
-.welcome-container {
+.dashboard-welcome-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,8 +63,7 @@
 }
 
 
-.welcome-container h1,
-.welcome-container p {
+.dashboard-welcome-container h1,
+.dashboard-welcome-container p {
     max-width: 600px;
 }
-

@@ -19,11 +19,11 @@ public class PostViewController {
         this.postService = postService;
     }
 
-    @GetMapping("/view")
+    @GetMapping("/post/{id}")
     public String viewPost(@RequestParam("id") Long postId, Model model) {
         Post post = postService.findPostById(postId)
                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
-        model.addAttribute("post", post);
-        return "post";
+        model.addAttribute("postView", post);
+        return "postView";
     }
 }

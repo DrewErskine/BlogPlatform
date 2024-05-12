@@ -1,3 +1,10 @@
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
 /* Login Form Styling */
 .login-container {
     width: 100%;
@@ -26,7 +33,7 @@
     outline: none;
 }
 
-.submit-button {
+.input-submit-button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -36,26 +43,25 @@
     transition: background-color 0.3s;
 }
 
-.submit-button:hover {
+.input-submit-button:hover {
     background-color: #0056b3;
 }
 
 
-.form-group {
+.input-form-group {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
 }
 
-.form-group .col-form-label {
+.input-form-group .col-form-label {
     margin-right: 0.5rem;
 }
 
 .form-group .form-control {
     flex: 3;
 }
-
-.error-message {
+.input-error-message {
     color: red;
     margin-top: 0.5rem;
 }

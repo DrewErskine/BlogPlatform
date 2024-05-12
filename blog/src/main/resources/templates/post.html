@@ -6,30 +6,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Welcome to My Blog</title>
+    <title>Blog Post</title>
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}" />
-    <link rel="stylesheet" th:href="@{/css/login.css}">
     <link rel="stylesheet" th:href="@{/css/form.css}">
     <link rel="stylesheet" th:href="@{/css/button.css}">
-
-    <!-- Favicon -->
-    <link rel="icon" href="/path/to/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <header th:replace="~{fragments/header :: header}"></header>
-    
     <main style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-        <div th:replace="~{fragments/login-form :: login-form}"></div>
-        <div class="form-wrapper">
-            <div th:replace="~{fragments/register-form :: register-form}"></div>
-        </div>
-    </main>
-    
-    <script src="/js/login-register.js"></script>
-</body>
 
+        <div th:replace="~{fragments/postView :: postView}"></div>
+
+    </main>
+</body>
 </html>
