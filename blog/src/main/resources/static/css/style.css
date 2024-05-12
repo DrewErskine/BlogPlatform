@@ -1,54 +1,54 @@
 :root {
-    --primary-color: #007bff; /* Example primary color */
-    --text-color: #333; /* Default text color */
-    --padding: 1rem; /* Default padding */
-    --header-bg-color: #333;
+    --primary-color: #007bff; /* Bright blue for links and highlights */
+    --text-color: #333;
+    --padding: 1rem;
+    --header-bg-color: #404040; /* Darker shade for header */
     --header-text-color: #fff;
-    --link-hover-color: #4CAF50;
-    --link-active-bg-color: #367c39;
-    --primary-border: #ccc; /* Assuming you want a default border color */
-    --input-focus: #007bff; /* Assuming focus color for inputs */
+    --link-hover-color: #5cb85c; /* Green for hover states on links */
+    --link-active-bg-color: #449d44; /* Dark green for active links */
+    --primary-border: #ddd;
+    --input-focus: #66afe9;
+    --font-secondary: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Secondary font */
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: var(--font-secondary);
     color: var(--text-color);
+    background-color: #fafafa; /* Lighter background for the overall layout */
 }
-
 
 /* Global Styles */
 html {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: var(--font-secondary);
 }
 
 h1, h2, h3, h4 {
-    margin: 0;
-    padding: 0.5em 0;
-    font-weight: normal; /* or bold, depending on design */
-    color: #333; /* a default color, assuming var(--text-color) is defined */
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    font-weight: bold; /* Bold headers for clear section demarcation */
+    color: var(--text-color);
     line-height: 1.4;
 }
 
-
 /* Link styling */
 a {
-    color: var(--primary-color); /* Ensure --primary-color is defined */
+    color: var(--primary-color);
     text-decoration: none;
 }
 
 a:hover {
+    color: var(--link-hover-color);
     text-decoration: underline;
 }
 
-/* Utility classes */
+/* Utility classes for common text alignments and margins */
 .text-center {
     text-align: center;
 }
 
-/* Additional utility examples */
 .text-right {
     text-align: right;
 }
@@ -56,4 +56,3 @@ a:hover {
 .mb-20 {
     margin-bottom: 20px;
 }
-
