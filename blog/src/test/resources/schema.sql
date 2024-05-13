@@ -1,44 +1,38 @@
--- Schema for `users`
-CREATE TABLE IF NOT EXISTS users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  email VARCHAR(255) UNIQUE,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- schema.sql
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
 );
 
--- Schema for `roles`
-CREATE TABLE IF NOT EXISTS roles (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  role_name VARCHAR(255) NOT NULL UNIQUE
+CREATE TABLE authorities (
+    name VARCHAR(16) NOT NULL PRIMARY KEY
 );
 
--- Schema for `user_roles`
-CREATE TABLE IF NOT EXISTS user_roles (
-  user_id INT NOT NULL,
-  role_id INT NOT NULL,
-  PRIMARY KEY (user_id, role_id),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-  FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+CREATE TABLE user_authority (
+    user_id BIGINT NOT NULL,
+    authority_name VARCHAR(16) NOT NULL,
+    PRIMARY KEY (user_id, authority_name),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (authority_name) REFERENCES authorities(name) ON DELETE CASCADE
 );
 
--- Schema for `post`
-CREATE TABLE IF NOT EXISTS post (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  content TEXT,
-  author_id INT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
+CREATE TABLE post (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    author_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Schema for `comments`
-CREATE TABLE IF NOT EXISTS comments (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  post_id INT NOT NULL,
-  user_id INT NOT NULL,
-  comment TEXT NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+CREATE TABLE comments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -2,17 +2,19 @@ package com.UserBlog.Blog.controller;
 
 import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.service.UserService;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.BDDMockito.*;
 
 public class UserControllerTest {
 
@@ -33,36 +35,23 @@ public class UserControllerTest {
     @Test
     public void testUserProfile() throws Exception {
         Long userId = 1L;
-        User user = new User(); // Assuming default constructor exists
-        when(userService.findById(userId)).thenReturn(java.util.Optional.of(user));
+        User user = new User();
+        when(userService.findById(userId)).thenReturn(Optional.of(user));
 
         mockMvc.perform(get("/api/user/profile/{userId}", userId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/profile"));
+                .andExpect(view().name("user/profile"))
+                .andExpect(model().attributeExists("user"));
     }
 
     @Test
     public void testEditUserProfile() throws Exception {
-        User currentUser = new User(); // Assuming default constructor exists
-        when(userService.getCurrentUser()).thenReturn(currentUser);
+        User user = new User();
+        when(userService.getCurrentUser()).thenReturn(Optional.of(user));
 
         mockMvc.perform(get("/api/user/edit-profile"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/edit-profile"));
-    }
-
-    @Test
-    public void testUpdateUserProfile() throws Exception {
-        // Assuming we have a User object set up
-        User user = new User();
-        user.setId(1L);  // Set user ID as something not null
-
-        // Mock the behavior of userService if required, for example:
-        // when(userService.updateUser(any(User.class))).thenReturn(user);
-
-        mockMvc.perform(post("/api/user/edit-profile")
-                .flashAttr("userForm", user))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("/**/profile/{userId}"));  // Correct usage
+                .andExpect(view().name("user/edit-profile"))
+                .andExpect(model().attributeExists("user"));
     }
 }

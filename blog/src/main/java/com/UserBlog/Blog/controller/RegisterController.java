@@ -1,37 +1,33 @@
 package com.UserBlog.Blog.controller;
 
+import com.UserBlog.Blog.model.User;
+import com.UserBlog.Blog.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.UserBlog.Blog.service.UserService;
 
 @Controller
 public class RegisterController {
 
-    private final UserService userService;
-
-    public RegisterController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/register")
-    public String showRegistrationForm() {
-        return "register";
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "registerForm";  // Ensure this is different from the request path
     }
 
     @PostMapping("/register")
-    public String processRegistration(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
-        try {
-            userService.registerUser(username, password, email);
-            return "redirect:/blogHome";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("registrationError", e.getMessage());
-            return "register"; 
-        } catch (Exception e) {
-            model.addAttribute("registrationError", "An error occurred during registration.");
-            return "register"; 
+    public String registerUser(@javax.validation.Valid @ModelAttribute("user") User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return "registerForm";  // Ensure this is different from the request path
         }
+        userService.save(user);
+        return "redirect:/register?success";  // Adjust this if your test expects a different redirect
     }
 }

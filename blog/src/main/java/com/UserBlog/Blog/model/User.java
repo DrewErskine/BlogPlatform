@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.NaturalId;
 
 import java.util.Set;
-
+import java.util.HashSet;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -40,6 +40,9 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = "name")
     )
     private Set<Authority> authorities;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
 
     public User() {}
 
@@ -91,14 +94,5 @@ public class User {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-            "id=" + id +
-            ", username='" + username + '\'' +
-            ", email='" + email + '\'' +
-            '}';
     }
 }

@@ -1,25 +1,15 @@
--- Initial data for `users`
-MERGE INTO users (id, username, password, email) KEY (id) VALUES
-(1, 'drew', 'luf', 'luf@drew.com'),
-(2, 'user2', 'password2', 'user2@example.com');
+-- data.sql
+MERGE INTO users KEY (id) VALUES (33, 'drew', '$2a$10$T5yH.Gk7Y6x6YzN.2ZDJ4OjU71gK5.T/wBYV8Jz2G3YOBShlh/ZSG', 'Dmerskine19@Gmail.com');
+MERGE INTO users KEY (id) VALUES (1, 'sara', '$2a$10$T5yH.Gk7Y6x6YzN.2ZDJ4OjU71gK5.T/wBYV8Jz2G3YOBShlh/ZSG', 'OfficialPeepPeaPlog@gmail.com');
+MERGE INTO authorities KEY (name) VALUES ('ADMIN');
+MERGE INTO authorities KEY (name) VALUES ('USER');
+MERGE INTO user_authority KEY (user_id, authority_name) VALUES (33, 'USER');
+MERGE INTO user_authority KEY (user_id, authority_name) VALUES (1, 'ADMIN');
 
--- Initial data for `roles`
-MERGE INTO roles (id, role_name) KEY (id) VALUES
-(1, 'ADMIN'),
-(2, 'USER');
+-- Posts
+MERGE INTO post KEY (id) VALUES (1, 'First Post', 'This is the first post content.', 33);
+MERGE INTO post KEY (id) VALUES (2, 'Second Post', 'This is the second post content.', 33);
 
--- Initial data for `user_roles`
-MERGE INTO user_roles (user_id, role_id) KEY (user_id, role_id) VALUES
-(1, 1),
-(2, 2);
-
--- Initial data for `post`
-MERGE INTO post (id, title, content, author_id) KEY (id) VALUES
-(1, 'First Post', 'This is the content of the first post.', 1),
-(2, 'Second Post', 'This is the content of the second post.', 2);
-
--- Initial data for `comments`
-MERGE INTO comments (id, post_id, user_id, comment) KEY (id) VALUES
-(1, 1, 1, 'This is a comment on the first post.'),
-(2, 1, 2, 'Another comment on the first post.'),
-(3, 2, 1, 'A comment on the second post.');
+-- Comments
+MERGE INTO comments KEY (id) VALUES (1, 1, 33, 'First comment on first post.');
+MERGE INTO comments KEY (id) VALUES (2, 2, 33, 'First comment on second post.');

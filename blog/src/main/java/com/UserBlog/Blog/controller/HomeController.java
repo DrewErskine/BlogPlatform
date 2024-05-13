@@ -21,6 +21,11 @@ public class HomeController {
         this.postService = postService;
     }
 
+    @GetMapping("/home")
+    public String homePage() {
+        return "dashboard"; // Ensure this matches the actual view name
+    }
+
     @GetMapping("/dashboard")
     public String home(Model model, Principal principal) {
         if (principal != null) {

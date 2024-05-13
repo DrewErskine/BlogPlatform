@@ -11,22 +11,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class LoginControllerTest {
+public class HomeControllerTest {
 
     private MockMvc mockMvc;
 
     @InjectMocks
-    private LoginController loginController;
+    private HomeController homeController;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
     }
 
     @Test
-    public void testLoginForm() throws Exception {
-        mockMvc.perform(get("/login"))
+    public void testHomePage() throws Exception {
+        mockMvc.perform(get("/home"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("dashboard"));
     }

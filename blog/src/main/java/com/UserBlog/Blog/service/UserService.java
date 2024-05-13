@@ -3,6 +3,7 @@ package com.UserBlog.Blog.service;
 import java.util.Collections;
 import java.util.Optional;
 import com.UserBlog.Blog.repository.UserRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,16 +47,16 @@ public class UserService {
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("Username already exists: " + username);
         }
-        
+
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already exists: " + email);
         }
-    
+
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setAuthorities(Collections.emptySet()); 
+        newUser.setAuthorities(Collections.emptySet());
         return userRepository.save(newUser);
     }
     
@@ -82,13 +83,9 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails)principal).getUsername();
-            return findByUsername(username).orElse(null);
-        }
-        return null;
+    public Optional<User> getCurrentUser() {
+        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        return userRepository.findByUsername(username);
     }
 
     /**

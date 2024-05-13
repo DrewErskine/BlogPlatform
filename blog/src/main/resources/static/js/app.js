@@ -1,5 +1,11 @@
 function getCsrfToken() {
-    return document.querySelector('meta[name="_csrf"]').content;
+    const tokenElement = document.querySelector('meta[name="_csrf"]');
+    return tokenElement ? tokenElement.content : null;
+}
+
+function getCsrfHeader() {
+    const headerElement = document.querySelector('meta[name="_csrf_header"]');
+    return headerElement ? headerElement.content : null;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -11,17 +17,28 @@ document.addEventListener("DOMContentLoaded", function() {
             const plainFormData = Object.fromEntries(formData.entries());
             const formDataJsonString = JSON.stringify(plainFormData);
 
-            fetch('/api/posts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    [csrfHeader]: getCsrfToken()
-                },
-                body: formDataJsonString,
-                credentials: 'same-origin'
-            })
-            .then(handleResponse)
-            .catch(handleError);
+            const csrfToken = getCsrfToken();
+            const csrfHeader = getCsrfHeader();
+
+            if (csrfToken && csrfHeader) {
+                const headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                headers.append(csrfHeader, csrfToken);
+
+                fetch('/api/posts', {
+                    method: 'POST',
+                    headers: headers,
+                    body: formDataJsonString,
+                    credentials: 'same-origin'
+                })
+                .then(handleResponse)
+                .then(() => {
+                    window.location.href = "/blog.html";
+                })
+                .catch(handleError);
+            } else {
+                console.error("CSRF token or header not found.");
+            }
         });
     }
 });

@@ -2,8 +2,9 @@
     <div class="form-container">
         <h2>Create a New Blog Post:</h2>
         <form id="postForm" th:action="@{/api/posts}" th:object="${post}" method="post">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            <input type="hidden" name="author_id" th:value="${post.authorId}" />
+            <meta name="_csrf" content="${_csrf.token}">
+            <meta name="_csrf_header" content="${_csrf.headerName}">
+            
 
             <div th:if="${submissionError}" class="alert alert-danger">
                 Error submitting the post. Please try again.

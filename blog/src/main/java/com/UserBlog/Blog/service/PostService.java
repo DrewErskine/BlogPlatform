@@ -1,9 +1,12 @@
 package com.UserBlog.Blog.service;
 
 import com.UserBlog.Blog.model.Post;
+import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.repository.PostRepository;
+import com.UserBlog.Blog.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +14,12 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private UserRepository userRepository;
 
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -23,7 +28,15 @@ public class PostService {
      * @return the saved post
      */
     public Post savePost(Post post) {
-        return postRepository.save(post);
+        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        Optional<User> authorOpt = userRepository.findByUsername(username);
+        if (authorOpt.isPresent()) {
+            User author = authorOpt.get();
+            post.setAuthor(author);
+            return postRepository.save(post);
+        } else {
+            throw new IllegalStateException("User not authenticated");
+        }
     }
 
     /**

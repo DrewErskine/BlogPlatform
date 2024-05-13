@@ -42,6 +42,6 @@ public class CsrfTests {
                 .param("email", "test@example.com")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/blogHome"));
+                .andExpect(redirectedUrl("/register?success"));
     }
 }

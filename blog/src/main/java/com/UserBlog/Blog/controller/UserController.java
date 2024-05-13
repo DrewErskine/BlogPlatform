@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String userProfile(Model model) {
-        User user = userService.getCurrentUser();
+        Optional<User> user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "user/profile";
     }
@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping("/edit-profile")
     public String editUserProfile(Model model) {
-        User user = userService.getCurrentUser();
+        Optional<User> user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "user/edit-profile";
     }

@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import javax.sql.DataSource;
 
 @Configuration
@@ -26,19 +25,19 @@ public class WebSecurityConfig {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private DataSource dataSource; // Ensure dataSource is autowired
+    private DataSource dataSource;
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home",
                                 "/register", "/user/profile")
                         .permitAll()
-                        .requestMatchers("/dashboard", "/post/**").authenticated()
+                        .requestMatchers("/dashboard", "/api/posts/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = LoginService.class)
-public class LoginServiceTests {
+public class LoginServiceTest {
 
     @Autowired
     private LoginService loginService;
