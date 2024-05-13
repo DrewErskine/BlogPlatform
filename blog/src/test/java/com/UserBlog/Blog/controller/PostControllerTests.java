@@ -17,7 +17,7 @@ import static org.mockito.BDDMockito.*;
 import java.util.Arrays;
 import java.util.Optional;
 
-@WebMvcTest(PostApiController.class)
+@WebMvcTest(PostController.class)
 public class PostControllerTests {
 
     @Autowired
@@ -30,7 +30,7 @@ public class PostControllerTests {
 
     @BeforeEach
     public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new PostApiController(postService)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new PostController(postService)).build();
     }
 
     @Test

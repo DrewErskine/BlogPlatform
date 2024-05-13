@@ -19,7 +19,7 @@
     <main class="container">
       <div class="form-container">
         <h2>Create a New Blog Post</h2>
-        <form th:action="@{/blog/save}" th:object="${post}" method="post">
+        <form th:action="@{/api/posts}" th:object="${post}" method="post">
           <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
           <div class="form-group">
