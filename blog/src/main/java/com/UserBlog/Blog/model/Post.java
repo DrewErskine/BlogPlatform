@@ -11,33 +11,26 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Table(name="post")
+@Table(name = "post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String content;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "author_id", nullable = false, updatable = false)
-    private int author_id;
-
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User author;
 
     public Post() {
-    }
-
-    public Post(String title, String content) {
-        this.title = title;
-        this.content = content;
-        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -56,14 +49,6 @@ public class Post {
         this.title = title;
     }
 
-    public User getAuthor() {
-        return this.author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
     public String getContent() {
         return content;
     }
@@ -78,5 +63,18 @@ public class Post {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }  
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Long getAuthorId() {
+        return this.author != null ? this.author.getId() : null;
+    }
+
 }

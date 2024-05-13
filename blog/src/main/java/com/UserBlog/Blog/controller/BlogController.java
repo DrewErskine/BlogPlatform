@@ -30,10 +30,11 @@ public class BlogController {
 
     @GetMapping("/blogForm")
     public String showBlogForm(Model model) {
-        logger.info("Accessing blog home page.");
-        model.addAttribute("post", new Post()); 
+        Post newPost = new Post();
+        logger.info("Creating a new post: {}", newPost);
+        model.addAttribute("post", newPost);
         return "blogForm";
-    }
+    }    
 
     @GetMapping("/post/{id}")
     public String viewPost(@PathVariable("id") Long postId, Model model) {

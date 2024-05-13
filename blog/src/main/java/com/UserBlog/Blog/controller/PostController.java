@@ -10,10 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
     private PostService postService;
@@ -36,14 +40,16 @@ public class PostController {
      * @param authorId the ID of the author, expecting author_id from form data.
      * @return ResponseEntity with the created post or error message.
      */
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<?> createPostFromForm(Post post, @RequestParam("author_id") Long authorId) {
+    @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> createPostFromForm(@ModelAttribute Post post, @RequestParam("author_id") Long authorId) {
         return userService.findById(authorId).map(author -> {
             post.setAuthor(author);
             Post savedPost = postService.savePost(post);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedPost);
         }).orElse(ResponseEntity.notFound().build());
     }
+
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
