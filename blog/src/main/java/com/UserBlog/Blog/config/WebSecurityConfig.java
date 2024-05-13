@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-public class WebSecurityConfig{
+public class WebSecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -31,42 +31,45 @@ public class WebSecurityConfig{
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home", "/register")
-                .permitAll()
-                .requestMatchers("/dashboard", "/post/**").authenticated()
-                .anyRequest().authenticated())
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
-                .failureUrl("/login?error=true")
-                .permitAll())
-            .logout(logout -> logout
-                .logoutUrl("/perform_logout")
-                .logoutSuccessUrl("/")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .permitAll())
-            .headers(headers -> headers
-                .frameOptions(frame -> frame.deny())
-                .contentTypeOptions(contentType -> contentType.disable())
-                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'"))
-            );
+                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home",
+                                "/register", "/user/profile")
+                        .permitAll()
+                        .requestMatchers("/dashboard", "/post/**").authenticated()
+                        .anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/dashboard", true)
+                        .failureUrl("/login?error=true")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/perform_logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .permitAll())
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.deny())
+                        .contentTypeOptions(contentType -> contentType.disable())
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'")));
         return http.build();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder);
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
 
         auth.jdbcAuthentication()
-            .dataSource(dataSource)
-            .usersByUsernameQuery("select username, password, enabled from users where username=?")
-            .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled from users where username=?")
+                .authoritiesByUsernameQuery(
+                        "select u.username, ua.authority_name from users u " +
+                                "join user_authority ua on u.id = ua.user_id " +
+                                "where u.username=?");
     }
 }

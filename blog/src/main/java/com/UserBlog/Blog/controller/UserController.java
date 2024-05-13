@@ -1,5 +1,6 @@
 package com.UserBlog.Blog.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,15 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/profile")
+    public String userProfile(Model model) {
+        User user = userService.getCurrentUser();
+        model.addAttribute("user", user);
+        return "user/profile";
+    }
+
     // Display user profile
+    @PreAuthorize("isAuthenticated() && (#userId == principal.id || hasAuthority('ADMIN'))")
     @GetMapping("/profile/{userId}")
     public String userProfile(@PathVariable Long userId, Model model) {
         Optional<User> userOptional = userService.findById(userId);
@@ -46,10 +55,10 @@ public class UserController {
         try {
             userService.updateUser(userForm);
             model.addAttribute("successMessage", "Profile updated successfully!");
-            return "redirect:/api/user/profile/" + userForm.getId();  
+            return "redirect:/api/user/profile/" + userForm.getId();
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error updating profile: " + e.getMessage());
-            return "user/edit-profile";  
+            return "user/edit-profile";
         }
     }
 }

@@ -1,6 +1,6 @@
 <div th:fragment="login-form">
     <div class="form-container">
-        <h2>Please Log In</h2>
+        <h2>Log In:</h2>
         <form action="#" th:action="@{/login}" method="post">
             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
             

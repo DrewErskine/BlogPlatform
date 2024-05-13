@@ -22,18 +22,17 @@ public class BlogController {
     }
 
     @GetMapping("/blog")
-    public String showBlogForm(Model model) {
+    public String showBlogPosts(Model model) {
         List<Post> posts = postService.findAllPosts();
         model.addAttribute("posts", posts);
         return "blog";
     }    
 
-    @GetMapping("/blogHome")
-    public String blogHomePage(Model model) {
+    @GetMapping("/blogForm")
+    public String showBlogForm(Model model) {
         logger.info("Accessing blog home page.");
-        List<Post> posts = postService.findAllPosts();  // Assuming you have this method in your PostService
-        model.addAttribute("posts", posts);
-        return "blogHome";
+        model.addAttribute("post", new Post()); 
+        return "blogForm";
     }
 
     @GetMapping("/post/{id}")

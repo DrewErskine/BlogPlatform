@@ -1,23 +1,31 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/default}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-<header>
-    <h1>User Profile</h1>
-</header>
-<main>
-    <h2>Profile Details</h2>
-    <div>
-        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-    </div>
-    <div>
+
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+  </head>
+  <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <main>
+      <h1>User Profile -</h1>
+      <h2>Profile Details:</h2>
+      <div>
+        <p>
+          <strong>Username:</strong> <span th:text="${username}">User</span>
+        </p>
+        <p><strong>Email:</strong> <span th:text="${email}">Email</span></p>
+      </div>
+      <div>
         <a th:href="@{/api/user/edit-profile}" class="button">Edit Profile</a>
-    </div>
-</main>
-</body>
+      </div>
+    </main>
+  </body>
 </html>

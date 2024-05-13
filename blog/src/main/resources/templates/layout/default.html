@@ -1,11 +1,13 @@
 <!-- src/main/resources/templates/layout/default.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="_csrf" th:content="${_csrf.token}" />
 
     <title layout:title-pattern="$CONTENT_TITLE - Welcome to My Blog"></title>
 
@@ -16,16 +18,15 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/post.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
-
-</head>
-<body>
+  </head>
+  <body>
     <header th:replace="fragments/header :: header"></header>
     <main layout:fragment="content">
-        <!-- Dynamic content goes here -->
+      <!-- Dynamic content goes here -->
     </main>
     <!-- Linking JavaScript -->
     <script src="/js/login-register.js"></script>
     <script src="/js/blog.js"></script>
     <script src="/js/app.js"></script>
-</body>
+  </body>
 </html>

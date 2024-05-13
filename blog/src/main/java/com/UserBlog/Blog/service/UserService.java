@@ -2,13 +2,12 @@ package com.UserBlog.Blog.service;
 
 import java.util.Collections;
 import java.util.Optional;
-
+import com.UserBlog.Blog.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import com.UserBlog.Blog.model.User;
-import com.UserBlog.Blog.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,27 +42,23 @@ public class UserService {
      * @return true if registration is successful, false if username or email exists
      */
     @Transactional
-    public boolean registerUser(String username, String password, String email) {
+    public User registerUser(String username, String password, String email) {
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("Username already exists: " + username);
         }
-
+        
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already exists: " + email);
         }
-
-        if (!userRepository.existsByUsername(username) && !userRepository.existsByEmail(email)) {
-            User newUser = new User();
-            newUser.setUsername(username);
-            newUser.setEmail(email);
-            newUser.setPassword(passwordEncoder.encode(password));
-            newUser.setAuthorities(Collections.emptySet()); 
-            userRepository.save(newUser);
-            return true;
-        }
-        return false;
+    
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setEmail(email);
+        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setAuthorities(Collections.emptySet()); 
+        return userRepository.save(newUser);
     }
-
+    
 
     /**
      * Checks if a username exists in the database.

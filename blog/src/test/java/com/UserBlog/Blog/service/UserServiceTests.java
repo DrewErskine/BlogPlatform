@@ -32,13 +32,10 @@ public class UserServiceTests {
     }
 
     @Test
-    public void testRegisterUserWithNewUsername() {
-        when(userRepository.existsByUsername("newUser")).thenReturn(false);
-        when(userRepository.existsByEmail("newUser@example.com")).thenReturn(false);
-        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        assertTrue(userService.registerUser("newUser", "newPassword", "newUser@example.com"));
-        verify(userRepository).save(any(User.class)); // Verify that save is called
+    public void testFindUserByUsername() {
+        User user = userService.findByUsername("existingUsername").orElse(null);
+        assertNotNull(user, "User should not be null");
+        assertTrue(user.getUsername().equals("existingUsername"), "Username should match");
     }
 
     @Test

@@ -16,11 +16,6 @@
     border-radius: 8px;
 }
 
-.login-form {
-    display: flex;
-    flex-direction: column;
-}
-
 .input-field {
     padding: 10px;
     margin-bottom: 15px;
@@ -58,9 +53,7 @@
     margin-right: 0.5rem;
 }
 
-.form-group .form-control {
-    flex: 3;
-}
+
 .input-error-message {
     color: red;
     margin-top: 0.5rem;
