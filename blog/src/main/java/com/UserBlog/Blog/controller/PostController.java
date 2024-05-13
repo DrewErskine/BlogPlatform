@@ -13,11 +13,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+
 
     @Autowired
     private PostService postService;
@@ -42,6 +44,7 @@ public class PostController {
      */
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> createPostFromForm(@ModelAttribute Post post, @RequestParam("author_id") Long authorId) {
+        logger.info("Received author_id: {}", authorId);
         return userService.findById(authorId).map(author -> {
             post.setAuthor(author);
             Post savedPost = postService.savePost(post);

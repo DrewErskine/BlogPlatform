@@ -35,12 +35,18 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         User user = optionalUser.get();
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities()
-                .stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toList());
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+            .stream()
+            .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+            .collect(Collectors.toList());
+    
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            user.getPassword(),
+            grantedAuthorities
+        );
     }
+    
+    
 
     public boolean registerUser(String username, String password) {
         if (!userRepository.existsByUsername(username)) {
