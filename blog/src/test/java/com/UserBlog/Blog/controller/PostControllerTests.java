@@ -2,8 +2,9 @@ package com.UserBlog.Blog.controller;
 
 import com.UserBlog.Blog.model.Post;
 import com.UserBlog.Blog.service.PostService;
-import org.junit.jupiter.api.Test;
+import com.UserBlog.Blog.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -11,11 +12,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.BDDMockito.*;
+
 import java.util.Arrays;
 import java.util.Optional;
+import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.any;
 
 @WebMvcTest(PostController.class)
 public class PostControllerTests {
@@ -26,11 +30,14 @@ public class PostControllerTests {
     @MockBean
     private PostService postService;
 
+    @MockBean
+    private UserService userService;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new PostController(postService)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new PostController(postService, userService)).build();
     }
 
     @Test
@@ -40,7 +47,7 @@ public class PostControllerTests {
         post.setTitle("Test Post");
         post.setContent("Test content");
 
-        given(postService.findAllPosts()).willReturn(Arrays.asList(post));
+        given(postService.findAllPostsSortedByDate()).willReturn(Arrays.asList(post));
 
         mockMvc.perform(get("/api/posts")
                 .contentType(MediaType.APPLICATION_JSON))

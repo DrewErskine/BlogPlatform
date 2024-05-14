@@ -27,8 +27,9 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     @GetMapping

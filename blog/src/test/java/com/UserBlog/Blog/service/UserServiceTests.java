@@ -12,6 +12,9 @@ import com.UserBlog.Blog.repository.UserRepository;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = UserService.class)
@@ -21,22 +24,26 @@ public class UserServiceTests {
     private UserService userService;
 
     @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
     private BCryptPasswordEncoder passwordEncoder;
 
+    @MockBean
+    private UserRepository userRepository;
+    
     @BeforeEach
-    public void setup() {
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+    void setUp() {
+        User user = new User();  // example setup
+        user.setUsername("testUser");
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
     }
+    
 
     @Test
     public void testFindUserByUsername() {
-        User user = userService.findByUsername("existingUsername").orElse(null);
+        User user = userService.findByUsername("testUser").orElse(null);
         assertNotNull(user, "User should not be null");
-        assertTrue(user.getUsername().equals("existingUsername"), "Username should match");
+        assertEquals("testUser", user.getUsername(), "Username should match");
     }
+    
 
     @Test
     public void testRegisterUserWithExistingUsername() {

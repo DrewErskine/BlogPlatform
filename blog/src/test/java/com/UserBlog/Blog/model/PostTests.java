@@ -14,16 +14,16 @@ public class PostTests {
     @DisplayName("Test Post Model Setters and Getters")
     @Test
     void testPostSettersAndGetters() {
-        Long postId = 1L; // ID
-        String title = "Test Title"; // title
-        String content = "Test content"; // content
-        LocalDateTime now = LocalDateTime.now(); // Current time
+        Long postId = 1L; 
+        String title = "Test Title"; 
+        String content = "Test content"; 
+        LocalDateTime now = LocalDateTime.now(); 
     
-        Post post = new Post(); // Post object
-        post.setId(postId); // Set post ID
-        post.setTitle(title); // Set title
-        post.setContent(content); // Set content
-        post.setCreatedAt(now); // Set creation date
+        Post post = new Post();
+        post.setId(postId); 
+        post.setTitle(title);
+        post.setContent(content); 
+        post.setCreatedAt(now);
     
         LocalDateTime expectedCreatedAt = now; 
     
