@@ -1,12 +1,12 @@
-function getCsrfToken() {
-    return document.querySelector('meta[name="_csrf"]').content;
-}
-
 document.addEventListener("DOMContentLoaded", function() {
     const postForm = document.getElementById("postForm");
     if (postForm) {
         postForm.addEventListener("submit", function(event) {
             event.preventDefault();
+
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+            const csrfToken = getCsrfToken();
+            
             const formData = new FormData(postForm);
             const plainFormData = Object.fromEntries(formData.entries());
             const formDataJsonString = JSON.stringify(plainFormData);
@@ -15,16 +15,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    [csrfHeader]: getCsrfToken()
+                    [csrfHeader]: csrfToken
                 },
                 body: formDataJsonString,
                 credentials: 'same-origin'
             })
             .then(handleResponse)
+            .then(data => {
+                alert('Post created successfully');
+                window.location.href = '/blog'; // Redirect to blog page after success
+            })
             .catch(handleError);
         });
     }
 });
+
+function getCsrfToken() {
+    return document.querySelector('meta[name="_csrf"]').content;
+}
 
 function handleResponse(response) {
     if (!response.ok) {

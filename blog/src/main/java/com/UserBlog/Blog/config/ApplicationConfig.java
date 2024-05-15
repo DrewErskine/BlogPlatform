@@ -1,6 +1,5 @@
 package com.UserBlog.Blog.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -18,25 +17,13 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 @EnableJpaRepositories("com.UserBlog.Blog.repository")
 public class ApplicationConfig {
 
-    @Value("${spring.datasource.url}")
-    private String databaseUrl;
-
-    @Value("${spring.datasource.username}")
-    private String username;
-
-    @Value("${spring.datasource.password}")
-    private String password;
-
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClassName;
-
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url(databaseUrl)
-                .username(username)
-                .password(password)
-                .driverClassName(driverClassName)
+                .url("jdbc:mysql://localhost:3306/blog")
+                .username("root")
+                .password("Devindrew42!")
+                .driverClassName("com.mysql.cj.jdbc.Driver")
                 .build();
     }
 
@@ -44,9 +31,8 @@ public class ApplicationConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan(new String[] { "com.UserBlog.Blog.model" });
+        em.setPackagesToScan("com.UserBlog.Blog.model");
 
-        // JPA Vendor Adapter
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
 

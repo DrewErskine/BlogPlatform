@@ -44,15 +44,6 @@ public class PostService {
     }
 
     /**
-     * Finds posts by title, ignoring case.
-     * @param title the title to search for
-     * @return a list of posts matching the title
-     */
-    public List<Post> findPostsByTitle(String title) {
-        return postRepository.findByTitleContainingIgnoreCase(title);
-    }
-
-    /**
      * Finds the most recent post.
      * @return the latest post or null if no posts exist
      */
@@ -69,7 +60,6 @@ public class PostService {
         return postRepository.findAll();
     }
 
-
     /**
      * Retrieves all posts, ordered by creation date descending.
      * @return a list of all posts
@@ -82,7 +72,4 @@ public class PostService {
         return postRepository.findAllPostsOrderByCreatedAtDesc();
     }
 
-    public List<Post> findByTitleContainingIgnoreCase(String title) {
-        return postRepository.findByTitleContainingIgnoreCase(title);
-    }
 }

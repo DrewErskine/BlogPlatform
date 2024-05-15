@@ -1,11 +1,16 @@
-<!-- fragments/post-list.html -->
+<!-- Post List Fragment with Post Details -->
 <div th:fragment="post-list">
-    <h2>Blog Posts</h2>
-    <div class="blog-posts-container">
-        <div th:each="post : ${posts}" class="post-container">
-            <h3 th:text="${post.title}">Post Title</h3>
-            <p th:text="${#strings.abbreviate(post.content, 200)}">Post content preview...</p>
-            <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-primary">Read More</a>
+    <div class="post-container">
+        <h2>Blog Posts</h2>
+        <div th:each="post : ${posts}">
+            <div class="post">
+                <h3 th:text="${post.title}">Default Post Title</h3>
+                <p th:text="${post.content}">Default post content...</p>
+                <p>Posted on <span th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}"></span> by <span th:text="${post.author.username}">Default Author</span></p>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(posts)}">
+            <p>No posts available. Check back soon!</p>
         </div>
     </div>
 </div>

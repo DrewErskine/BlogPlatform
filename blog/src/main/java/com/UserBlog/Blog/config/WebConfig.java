@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
         resolver.setCharacterEncoding("UTF-8");
+        resolver.setOrder(0); 
         return resolver;
     }
 
@@ -45,7 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**", "/css/**", "/js/**", "/images/**")
                 .addResourceLocations("classpath:/static/",
-                                      "classpath:/static/css/", 
+                                      "classpath:/static/css/",
                                       "classpath:/static/js/",
                                       "classpath:/static/images/");
     }

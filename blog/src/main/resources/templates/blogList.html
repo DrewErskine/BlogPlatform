@@ -15,17 +15,17 @@
     <link rel="stylesheet" th:href="@{/css/buttons.css}">
 
     <!-- Favicon -->
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
 </head>
 <body>
-    <header th:replace="~{fragments/header :: header}"></header>
+    <header th:replace="fragments/header :: header"></header>
     
     <main>
         <h1 class="text-center">Blog Posts Overview</h1>
         <div class="text-center mb-20">
             <a href="/blogForm" class="btn btn-primary">Go to Blog Form</a>
         </div>
-        <div th:replace="~{fragments/post-list :: post-list}"></div>
+        <div th:replace="fragments/post-list :: post-list"></div>
     </main>
 </body>
 </html>

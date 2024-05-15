@@ -34,6 +34,4 @@ CREATE TABLE IF NOT EXISTS post (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
 );

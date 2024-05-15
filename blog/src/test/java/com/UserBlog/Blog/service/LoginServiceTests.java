@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.UserBlog.Blog.model.Authority;
 import com.UserBlog.Blog.model.User;
 import com.UserBlog.Blog.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -31,7 +34,8 @@ public class LoginServiceTests {
 
     @BeforeEach
     public void setup() {
-        User testUser = new User(1L, "drew", "drew@example.com", "encodedPassword1", Collections.emptySet());
+        Set<Authority> authorities = Collections.emptySet();
+        User testUser = new User(1L, "drew", "drew@example.com", "encodedPassword1", authorities, true);
         
         // Mock password matching
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);

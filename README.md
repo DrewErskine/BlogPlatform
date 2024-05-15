@@ -36,16 +36,16 @@ This Blog Platform is a robust application built on Spring Boot, designed to off
 ### Service Files
 - **LoginService.java**: Manages user authentication processes.
     - **Authenticate User**: Validates usernames and passwords.
-    - **Load UserDetails**: Retrieves UserDetails for authentication.
+    - **Load UserDetails**: Retrieves UserDetails for authenticated users to support security operations.
 
-- **MyUserDetailsService.java**: Custom user details service that integrates with Spring Security.
-    - **Load User Details**: Provides user details with authorities for security context.
+- **MyUserDetailsService.java**: Implements Spring Security's UserDetailsService to provide user details for authentication purposes.
+    - **Load User Details**: Retrieves detailed user information, including roles and permissions, for security checks.
 
 - **PostService.java**: Business logic for managing blog posts.
     - **Manage Posts**: Includes creating, updating, and deleting blog posts.
     - **Retrieve Posts**: Fetch posts with specific criteria.
 
-- **UserService.java**: Manages user-related functionalities like registration and updates.
+- **UserService.java**: Manages user data and interactions.
     - **Register User**: Handles new user registrations.
     - **Update User Profile**: Updates information for existing users.
     - **Validation**: Ensures username and email uniqueness.
@@ -53,15 +53,15 @@ This Blog Platform is a robust application built on Spring Boot, designed to off
 ---
 
 ### Repository Files
-- **PostRepository.java**: JPA repository for managing blog posts, offering advanced query capabilities.
-    - **Find by Title**: `findByTitleContainingIgnoreCase(String title)`
-    - **Find by Content**: Custom query to find posts with content containing a specified keyword.
-    - **List All Posts by Creation Date**: Custom query to list all posts ordered by the date they were created.
+- **PostRepository.java**: Extends JpaRepository for CRUD operations on blog posts, enhanced with custom queries.
+    - **Find by Title**: Searches posts by title, ignoring case.
+    - **Find by Content**: Allows searching within the content of posts.
+    - **List All Posts by Creation Date**: Retrieves all posts ordered by their creation timestamp.
 
-- **UserRepository.java**: Extends `JpaRepository` for user management, providing essential methods for authentication and user searches.
+- **UserRepository.java**: Manages database operations for user entities.
     - **Check Existence by Username/Email**: `existsByUsername(String username)`, `existsByEmail(String email)`
-    - **Find by Username/Email**: `findByUsername(String username)`, `findByEmail(String email)`
-    - **Custom User Queries**: Custom queries to fetch users by username or email.
+    - **Find by Username/Email**: Includes methods to retrieve users by their username or email.
+    - **Custom User Queries**:  Facilitates fetching users with specific parameteres
 
 ---
 

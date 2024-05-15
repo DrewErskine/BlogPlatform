@@ -1,17 +1,7 @@
 package com.UserBlog.Blog.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-
 
 @Entity
 @Table(name = "post")
@@ -22,17 +12,29 @@ public class Post {
     private Long id;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     private LocalDateTime createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private User author;
+    private LocalDateTime updatedAt;
 
-    public Post() {
+    public Post() {}
+
+    public Post(Long id, String title, String content, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.user = user;
+        this.createdAt = createdAt;
     }
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -58,6 +60,14 @@ public class Post {
         this.content = content;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -66,20 +76,23 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public User getAuthor() {
-        return author;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public Long getAuthorId() {
-        return this.author != null ? this.author.getId() : null;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", user=" + user +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

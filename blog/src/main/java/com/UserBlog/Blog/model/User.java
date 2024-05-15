@@ -3,11 +3,10 @@ package com.UserBlog.Blog.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.NaturalId;
 
-import java.util.Set;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "blog", uniqueConstraints = {
@@ -41,16 +40,19 @@ public class User {
     )
     private Set<Authority> authorities;
 
+    @Column(nullable = false)
+    private boolean enabled;
+
     public User() {}
 
-    public User(Long id, String username, String email, String password, Set<Authority> authorities) {
+    public User(Long id, String username, String email, String password, Set<Authority> authorities, boolean enabled) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.enabled = enabled;
     }
-
 
     // Getters and Setters
     public Long getId() {
@@ -91,6 +93,14 @@ public class User {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

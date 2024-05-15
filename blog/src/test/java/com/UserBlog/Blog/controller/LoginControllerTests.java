@@ -3,6 +3,7 @@ package com.UserBlog.Blog.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.UserBlog.Blog.service.LoginService;
 
-public class LoginControllerTest {
+public class LoginControllerTests {
 
     private MockMvc mockMvc;
 
@@ -38,6 +39,18 @@ public class LoginControllerTest {
                 .param("username", "user")
                 .param("password", "pass"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/blogHome"));
+                .andExpect(view().name("redirect:/dashboard"));
+    }
+
+    @Test
+    public void testProcessLoginFailure() throws Exception {
+        when(loginService.authenticate("user", "wrongpass")).thenReturn(false);
+
+        mockMvc.perform(post("/login")
+                .param("username", "user")
+                .param("password", "wrongpass"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/login"))
+                .andExpect(flash().attribute("message", "Invalid credentials"));
     }
 }

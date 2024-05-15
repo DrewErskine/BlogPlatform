@@ -34,7 +34,7 @@ public class RegisterController {
             return "register-form"; 
         } catch (Exception e) {
             model.addAttribute("registrationError", "An error occurred during registration.");
-            return "redirect:/register?success"; 
+            return "register-form"; 
         }
     }
 }
