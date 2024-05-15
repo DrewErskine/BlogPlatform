@@ -65,14 +65,11 @@ public class WebSecurityConfig {
             auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
-        
-            auth.jdbcAuthentication()
+            
+            auth
+                .jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery(
-                    "select u.username, a.authority from users u " +
-                    "join user_authority ua on u.id = ua.user_id " +
-                    "join authorities a on a.id = ua.authority_id " +
-                    "where u.username=?");
-        }        
+                .usersByUsernameQuery("select username, password, enabled from users where username = ?")
+                .authoritiesByUsernameQuery("select u.username, a.name from users u join user_authority ua on u.id = ua.user_id join authorities a on ua.authority_id = a.id where u.username = ?");
+        }
 }

@@ -1,5 +1,3 @@
--- schema.sql
-
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -10,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS authorities (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    authority VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_authority (

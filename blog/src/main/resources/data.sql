@@ -1,31 +1,30 @@
-
 -- Insert data into the users table
 INSERT INTO users (id, username, password, email, enabled)
-VALUES (1, 'sara', '$2b$12$DY0wSg.HNqfYoV19/4oxYuOLCRJsjMRGbVGNh21RrmmxOncEoVxqG', 'OfficialPeepPeaPlog@gmail.com', true),
-       (2, 'drew', '$2b$12$DY0wSg.HNqfYoV19/4oxYuOLCRJsjMRGbVGNh21RrmmxOncEoVxqG', 'Dmerskine19@Gmail.com', true),
-       (3, 'testUser', '$2b$12$DY0wSg.HNqfYoV19/4oxYuOLCRJsjMRGbVGNh21RrmmxOncEoVxqG', 'test@example.com', true)
+VALUES 
+(1, 'sara', '$2b$12$DY0wSg.HNqfYoV19/4oxYuOLCRJsjMRGbVGNh21RrmmxOncEoVxqG', 'OfficialPeepPeaPlog@gmail.com', true),
+(2, 'drew', '$2b$12$DY0wSg.HNqfYoV19/4oxYuOLCRJsjMRGbVGNh21RrmmxOncEoVxqG', 'Dmerskine19@Gmail.com', true),
+(3, 'testUser', '$2b$12$DY0wSg.HNqfYoV19/4oxYuOLCRJsjMRGbVGNh21RrmmxOncEoVxqG', 'test@example.com', true)
 ON DUPLICATE KEY UPDATE
     username = VALUES(username),
     password = VALUES(password),
     email = VALUES(email),
     enabled = VALUES(enabled);
 
--- Inserting data into authorities table
 -- Insert data into the authorities table
-INSERT INTO authorities (id, authority)
-VALUES (1, 'ADMIN'), (2, 'USER')
-ON DUPLICATE KEY UPDATE authority = VALUES(authority);
-
+INSERT INTO authorities (id, name)
+VALUES 
+(1, 'ADMIN'), 
+(2, 'USER')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- Inserting data into user_authority table
 INSERT INTO user_authority (user_id, authority_id)
 VALUES 
-((SELECT id FROM users WHERE username = 'drew'), (SELECT id FROM authorities WHERE authority = 'ADMIN')), 
-((SELECT id FROM users WHERE username = 'sara'), (SELECT id FROM authorities WHERE authority = 'USER'))
+((SELECT id FROM users WHERE username = 'drew'), (SELECT id FROM authorities WHERE name = 'ADMIN')), 
+((SELECT id FROM users WHERE username = 'sara'), (SELECT id FROM authorities WHERE name = 'USER'))
 ON DUPLICATE KEY UPDATE
     user_id = VALUES(user_id),
     authority_id = VALUES(authority_id);
-
 
 -- Inserting data into posts table
 INSERT INTO posts (id, title, content, created_at, user_id)
