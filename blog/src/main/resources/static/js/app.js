@@ -4,13 +4,16 @@ document.addEventListener("DOMContentLoaded", function() {
         postForm.addEventListener("submit", function(event) {
             event.preventDefault();
 
+            // Fetch CSRF header and token from meta tags
             const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
             const csrfToken = getCsrfToken();
-            
+
+            // Collect form data
             const formData = new FormData(postForm);
             const plainFormData = Object.fromEntries(formData.entries());
             const formDataJsonString = JSON.stringify(plainFormData);
 
+            // Send POST request with form data and CSRF token
             fetch('/api/posts', {
                 method: 'POST',
                 headers: {

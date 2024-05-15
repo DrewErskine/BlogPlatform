@@ -20,14 +20,11 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Post() {}
 
-    public Post(Long id, String title, String content, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public Post(String title, String content, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.title = title;
         this.content = content;
         this.user = user;
@@ -76,13 +73,6 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     @Override
     public String toString() {
@@ -92,7 +82,6 @@ public class Post {
                 ", content='" + content + '\'' +
                 ", user=" + user +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

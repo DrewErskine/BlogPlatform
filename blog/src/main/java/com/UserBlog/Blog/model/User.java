@@ -45,13 +45,13 @@ public class User {
 
     public User() {}
 
-    public User(Long id, String username, String email, String password, Set<Authority> authorities, boolean enabled) {
+    public User(Long id, String username, String email, String password, boolean enabled, Set<Authority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.authorities = authorities;
         this.enabled = enabled;
+        this.authorities = authorities;
     }
 
     // Getters and Setters

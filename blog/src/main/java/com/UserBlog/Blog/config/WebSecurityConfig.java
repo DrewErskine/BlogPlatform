@@ -26,7 +26,7 @@ public class WebSecurityConfig {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private DataSource dataSource; // Ensure dataSource is autowired
+    private DataSource dataSource;
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,15 +61,16 @@ public class WebSecurityConfig {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
-
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder);
+    
         auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery(
-                        "select u.username, ua.authority_name from users u " +
-                                "join user_authority ua on u.id = ua.user_id " +
-                                "where u.username=?");
-    }
+            .dataSource(dataSource)
+            .usersByUsernameQuery("select username, password, enabled from users where username=?")
+            .authoritiesByUsernameQuery(
+                "select u.username, a.authority from users u " +
+                "join user_authority ua on u.id = ua.user_id " +
+                "join authorities a on ua.authority_id = a.id " +
+                "where u.username=?");
+    }    
 }

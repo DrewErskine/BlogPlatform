@@ -5,7 +5,8 @@
         <div th:if="${welcomePost}" class="post">
             <h3 th:text="${welcomePost.title}">Post Title</h3>
             <p th:text="${welcomePost.content}">Post content will appear here if not loaded...</p>
-            <p>Posted on <span th:text="${#temporals.format(welcomePost.createdAt, 'dd MMMM yyyy')}"></span> by <span th:text="${welcomePost.author.username}">Author</span></span> </p>
+            <p>Posted on <span th:text="${#temporals.format(welcomePost.createdAt, 'dd MMMM yyyy')}"></span> 
+                by <span th:text="${welcomePost?.user?.username ?: 'Unknown'}">Author</span></p>
             <a th:href="@{/post/{id}(id=${welcomePost.id})}" class="btn btn-primary">Read More</a>
         </div>
         <div th:unless="${welcomePost}">

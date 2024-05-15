@@ -1,25 +1,18 @@
--- Drop tables if they exist
-DROP TABLE IF EXISTS user_authority;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS authorities;
-DROP TABLE IF EXISTS post;
+-- schema.sql
 
--- Create users table
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    enabled BOOLEAN NOT NULL
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- Create authorities table
 CREATE TABLE IF NOT EXISTS authorities (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE
+    authority VARCHAR(50) NOT NULL
 );
 
--- Create user_authority table
 CREATE TABLE IF NOT EXISTS user_authority (
     user_id INT NOT NULL,
     authority_id INT NOT NULL,
@@ -28,12 +21,12 @@ CREATE TABLE IF NOT EXISTS user_authority (
     FOREIGN KEY (authority_id) REFERENCES authorities(id) ON DELETE CASCADE
 );
 
--- Create post table
-CREATE TABLE IF NOT EXISTS post (
+-- Adding posts table
+CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );

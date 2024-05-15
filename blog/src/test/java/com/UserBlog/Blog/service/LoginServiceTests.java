@@ -35,7 +35,7 @@ public class LoginServiceTests {
     @BeforeEach
     public void setup() {
         Set<Authority> authorities = Collections.emptySet();
-        User testUser = new User(1L, "drew", "drew@example.com", "encodedPassword1", authorities, true);
+        User testUser = new User(1L, "drew", "drew@example.com", "encodedPassword1", true, authorities);
         
         // Mock password matching
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);

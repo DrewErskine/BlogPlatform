@@ -21,7 +21,7 @@ public class HomeController {
         this.postService = postService;
     }
 
-    @GetMapping({"/", "/dashboard"})
+    @GetMapping({"/dashboard"})
     public String home(Model model, Principal principal) {
         if (principal != null) {
             model.addAttribute("username", principal.getName());

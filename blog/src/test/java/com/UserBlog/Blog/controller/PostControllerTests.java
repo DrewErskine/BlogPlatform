@@ -12,9 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,6 +39,7 @@ public class PostControllerTests {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(new PostController(postService, userService)).build();
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
