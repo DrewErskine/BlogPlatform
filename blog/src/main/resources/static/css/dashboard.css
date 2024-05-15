@@ -1,0 +1,68 @@
+/* dashboard.css */
+.dashboard-container {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+}
+
+.dashboard-header {
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.dashboard-post-preview {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.dashboard-post-preview:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-post-title {
+  color: #2a6496;
+  font-size: 20px;
+}
+
+.dashboard-post-content {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Enhance the button styles */
+.dashboard-button-primary {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dashboard-button-primary:hover {
+  background-color: #45a049;
+}
+
+.dashboard-welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 33vh;
+  text-align: center;
+}
+
+.dashboard-welcome-container h1,
+.dashboard-welcome-container p {
+  max-width: 600px;
+}

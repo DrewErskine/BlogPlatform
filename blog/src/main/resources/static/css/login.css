@@ -1,0 +1,58 @@
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Login Form Styling */
+.login-container {
+  width: 100%;
+  max-width: 360px;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.input-field {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--primary-border);
+  border-radius: 4px;
+}
+
+.input-field:focus {
+  border-color: var(--input-focus);
+  outline: none;
+}
+
+.input-submit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.input-submit-button:hover {
+  background-color: #0056b3;
+}
+
+.input-form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.input-form-group .col-form-label {
+  margin-right: 0.5rem;
+}
+
+.input-error-message {
+  color: red;
+  margin-top: 0.5rem;
+}
