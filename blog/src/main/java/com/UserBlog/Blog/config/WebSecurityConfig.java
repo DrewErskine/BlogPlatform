@@ -19,58 +19,60 @@ import javax.sql.DataSource;
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+        @Autowired
+        private BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private DataSource dataSource;
+        @Autowired
+        private DataSource dataSource;
 
-    @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/login", "/error", "/home",
-                                "/register", "/user/profile")
-                        .permitAll()
-                        .requestMatchers("/dashboard", "/post/**").authenticated()
-                        .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
-                        .failureUrl("/login?error=true")
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/perform_logout")
-                        .logoutSuccessUrl("/")
-                        .deleteCookies("JSESSIONID")
-                        .invalidateHttpSession(true)
-                        .permitAll())
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.deny())
-                        .contentTypeOptions(contentType -> contentType.disable())
-                        .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'")));
-        return http.build();
-    }
+        @Bean
+        protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                                .sessionManagement(sessionManagement -> sessionManagement
+                                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**",
+                                                                "/login", "/error", "/home",
+                                                                "/register", "/user/profile")
+                                                .permitAll()
+                                                .requestMatchers("/dashboard", "/post/**").authenticated()
+                                                .anyRequest().authenticated())
+                                .formLogin(formLogin -> formLogin
+                                                .loginPage("/login")
+                                                .defaultSuccessUrl("/dashboard", true)
+                                                .failureUrl("/login?error=true")
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/perform_logout")
+                                                .logoutSuccessUrl("/")
+                                                .deleteCookies("JSESSIONID")
+                                                .invalidateHttpSession(true)
+                                                .permitAll())
+                                .headers(headers -> headers
+                                                .frameOptions(frame -> frame.deny())
+                                                .contentTypeOptions(contentType -> contentType.disable())
+                                                .contentSecurityPolicy(
+                                                                csp -> csp.policyDirectives("default-src 'self'")));
+                return http.build();
+        }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder);
-    
-        auth.jdbcAuthentication()
-            .dataSource(dataSource)
-            .usersByUsernameQuery("select username, password, enabled from users where username=?")
-            .authoritiesByUsernameQuery(
-                "select u.username, a.authority from users u " +
-                "join user_authority ua on u.id = ua.user_id " +
-                "join authorities a on ua.authority_id = a.id " +
-                "where u.username=?");
-    }    
+        @Autowired
+        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+            auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
+        
+            auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled from users where username=?")
+                .authoritiesByUsernameQuery(
+                    "select u.username, a.authority from users u " +
+                    "join user_authority ua on u.id = ua.user_id " +
+                    "join authorities a on a.id = ua.authority_id " +
+                    "where u.username=?");
+        }        
 }
